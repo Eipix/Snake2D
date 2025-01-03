@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: a457e00399e9068459da593ab0becea7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  - _skins: {instanceID: 0}
+  - _notify: {instanceID: 0}
+  - _appleBar: {instanceID: 0}
+  - _goldAppleBar: {instanceID: 0}
+  - _icon: {instanceID: 0}
+  - _textCloud: {instanceID: 0}
+  - _filledCell: {fileID: 21300000, guid: 8dd968a892070064bbd1c48b4d8a142a, type: 3}
+  - _emptyCell: {fileID: 21300000, guid: d9d67e15713dc4043a4fd025b1ae7a1c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

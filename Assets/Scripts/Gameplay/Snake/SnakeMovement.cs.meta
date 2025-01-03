@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 12657920c83392049ae02cf3bdc6f468
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _snakeInputController: {instanceID: 0}
+  - _prefabBody: {instanceID: 0}
+  - _prefabRightCorner: {instanceID: 0}
+  - _prefabLeftCorner: {instanceID: 0}
+  - _saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

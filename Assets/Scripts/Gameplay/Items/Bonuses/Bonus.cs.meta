@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 46c127ea724534141bcc64a16d9ecadb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  - iconArt: {instanceID: 0}
+  - Light: {instanceID: 0}
+  - headline: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

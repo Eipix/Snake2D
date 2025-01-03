@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c05a4e5cf928bfa48aa5cc663cf2a6c0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _snakeMovement: {instanceID: 0}
+  - _health: {instanceID: 0}
+  - _effect: {instanceID: 0}
+  - _saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

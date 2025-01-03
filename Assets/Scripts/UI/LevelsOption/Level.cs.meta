@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 5adb7f5f115e29344816ae01299caa79
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  - _whiteCircle: {instanceID: 0}
+  - _icon: {instanceID: 0}
+  - _receivedStar: {instanceID: 0}
+  - _unlockLevelIcon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

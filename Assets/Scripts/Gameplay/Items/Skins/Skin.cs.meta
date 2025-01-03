@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: adbdb3b5314601c48baaf7190e44c988
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <IconArt>k__BackingField: {instanceID: 0}
+  - <Light>k__BackingField: {instanceID: 0}
+  - <Headline>k__BackingField: {instanceID: 0}
+  - ironLock: {instanceID: 0}
+  - outline: {instanceID: 0}
+  - outlight: {instanceID: 0}
+  - avatar: {instanceID: 0}
+  - _avatarUnlock: {instanceID: 0}
+  - _avatarLock: {fileID: 21300000, guid: 65bb84220798b0541a92ea4cd6ae5109, type: 3}
+  - saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

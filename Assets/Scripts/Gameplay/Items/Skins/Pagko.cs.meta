@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: df4510501ed2edd4eb16779920a175dc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <IconArt>k__BackingField: {instanceID: 0}
+  - <Light>k__BackingField: {instanceID: 0}
+  - <Headline>k__BackingField: {instanceID: 0}
+  - saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
