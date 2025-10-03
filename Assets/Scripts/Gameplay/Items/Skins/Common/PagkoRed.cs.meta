@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: c8670a3034158344fa9c44b8a80d9c18
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <Scene>k__BackingField: {instanceID: 0}
+  - <RayBeforeScene>k__BackingField: {instanceID: 0}
+  - <Icon>k__BackingField: {instanceID: 0}
+  - <FullScreenIcon>k__BackingField: {instanceID: 0}
+  - <Light>k__BackingField: {instanceID: 0}
+  - <Headline>k__BackingField: {instanceID: 0}
+  - saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
+  - ironLock: {instanceID: 0}
+  - outline: {instanceID: 0}
+  - outlight: {instanceID: 0}
+  - avatar: {instanceID: 0}
+  - _button: {instanceID: 0}
+  - <ClickBehaviour>k__BackingField: {instanceID: 0}
+  - _avatarUnlock: {instanceID: 0}
+  - _avatarLock: {instanceID: 0}
+  - _skillIcon: {instanceID: 0}
+  - _activationSkillIcon: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

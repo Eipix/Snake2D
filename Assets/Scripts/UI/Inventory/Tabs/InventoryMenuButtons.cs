@@ -8,9 +8,13 @@ public class InventoryMenuButtons : MonoBehaviour
 
     public void OnBackClick()
     {
+        UpdateSlotsIfActive();
+        _inventoryPanel.SetActive(false);
+    }
+
+    public void UpdateSlotsIfActive()
+    {
         if (_missionRequirements.activeSelf)
             _slots.UpdateSlots();
-
-        _inventoryPanel.SetActive(false);
     }
 }

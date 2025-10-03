@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Ants : Enemy
 {
-    private float _delay = 0f;
-
     protected override void Start()
     {
         base.Start();
@@ -13,9 +11,7 @@ public class Ants : Enemy
 
     protected override void Update()
     {
-        _delay += Time.deltaTime;
-
-        if (_delay < 3f)
+        if (References.CountdownToStart.LevelStarted == false)
             return;
 
         base.Update();
@@ -34,9 +30,10 @@ public class Ants : Enemy
         }
     }
 
-    public void IncreaseConditionDeath()
+    public override void OnDeath()
     {
-        Conditions.KillAnts++;
+        base.OnDeath();
+        References.Conditions.KillAnts++;
     }
 
     public static new class AnimationController 

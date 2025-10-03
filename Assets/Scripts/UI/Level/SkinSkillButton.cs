@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class SkinSkillButton : MonoBehaviour
 {
     [SerializeField] private SkinLoader _loader;
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private SlotReload _reload;
 
     public Skin CurrentSkin { get; private set; }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+Ôªøusing System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
@@ -14,6 +14,12 @@ public class Effects : MonoBehaviour
     [SerializeField] private Head _head;
     [SerializeField] private EnemySpawner _enemySpawner;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip _explosion;
+    [SerializeField] private AudioClip _energyShield;
+    [SerializeField] private AudioClip _freeze;
+    [SerializeField] private AudioClip _speed;
+
     [Header("Animations")]
     [SerializeField] private ParticleSystem _healing;
     [SerializeField] private Transform _accelerationAnimation;
@@ -28,6 +34,7 @@ public class Effects : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _drop;
 
     private List<Enemy> _enemies = new List<Enemy>();
+    private TranslatableString _langDropText = new TranslatableString();
 
     public int BombUsedCount { get; private set; }
     public bool IsInvincible => _invincible;
@@ -53,8 +60,13 @@ public class Effects : MonoBehaviour
 
     private void Start()
     {
-        _drop.color = _drop.color.Invisible();
-        _drop.text = "”Í‡ÊËÚÂ ÚÓ˜ÍÛ Ò·ÓÒ‡";
+        _langDropText.TranslateTexts = new string[]
+        {
+            "Specify the reset point",
+            "–£–∫–∞–∂–∏—Ç–µ —Ç–æ—á–∫—É —Å–±—Ä–æ—Å–∞",
+            "Sƒ±fƒ±rlama noktasƒ±nƒ± belirleyin"
+        };
+        _drop.color = _drop.color.Fade();
     }
 
     private void Update()
@@ -99,7 +111,7 @@ public class Effects : MonoBehaviour
             {
                 if (_enemies[i].Behaviour == Enemy.BehaviourType.Aggressive)
                     _enemies[i].ResetAttackTriggers();
-                _enemies[i].Animator.SetBool(Enemy.AnimationController.Freezing, false);
+
                 _enemies[i].FreezingDisable();
             }
         }
@@ -151,6 +163,7 @@ public class Effects : MonoBehaviour
 
     public void Shield(float duration = 7f, bool isPeach = false)
     {
+        SoundsPlayer.Instance.PlayOneShotSound(_energyShield);
         _invincible = true;
         _invincibleDuration += duration;
 
@@ -174,8 +187,10 @@ public class Effects : MonoBehaviour
         }
     }
 
-    public void Acceleration(float duration = 30f, float acceleration = 3.4f)
+    public void Acceleration(float duration = 10f, float acceleration = 2f)
     {
+        SoundsPlayer.Instance.PlayOneShotSound(_speed);
+
         _lightning = true;
         _accelerationDuration = duration;
         float speed = SnakeMovement.DefaultSpeed;
@@ -188,14 +203,12 @@ public class Effects : MonoBehaviour
     public void Freezing(float duration = 5f)
     {
         _freezing = true;
+        var audioSource = gameObject.AddComponent<AudioSource>();
+        SoundsPlayer.Instance.PlayWhile(_freeze, () => _freezing, audioSource);
         _freezeDuration = duration;
-        _enemies = GetActiveEnemies();
 
-        for(int i = 0; i < _enemies.Count;i++)
-        {
-            _enemies[i].Animator.SetBool(Enemy.AnimationController.Freezing, true);
-            _enemies[i].FreezingEnable();
-        }
+        _enemies = GetActiveEnemies();
+        _enemies.ForEach(enemy => enemy.FreezingEnable());
     }
 
     public IEnumerator DropBomb(Bomb bomb = null, int doubleDamageChance = 0)
@@ -207,7 +220,7 @@ public class Effects : MonoBehaviour
 
         BombUsedCount++;
         sequence.Kill();
-        bomb?.Spend();
+        bomb?.TrySpend();
 
         int damage = rand.withProbability(doubleDamageChance) ? 2 : 1;
         var bombPrefab = Instantiate(_bombPrefab, new Vector2(0, 8.5f), Quaternion.identity);
@@ -226,7 +239,7 @@ public class Effects : MonoBehaviour
         yield return new WaitUntil(() => _controller.isTouch);
 
         sequence.Kill();
-        cheese?.Spend();
+        cheese?.TrySpend();
 
         var cheesePrefab = Instantiate(_cheesePrefab, new Vector2(0, 8.5f), Quaternion.identity, _generationArea.transform);
 
@@ -238,6 +251,7 @@ public class Effects : MonoBehaviour
 
     public void Explosion(GameObject prefab, int damage)
     {
+        SoundsPlayer.Instance.PlayOneShotSound(_explosion);
         var hits = Physics2D.BoxCastAll(prefab.transform.position, Vector2.one * 3, 0, prefab.transform.position, 0.1f);
 
         if (hits == null) return;
@@ -255,8 +269,8 @@ public class Effects : MonoBehaviour
     public void EnableSpeedAnimation(ref bool isActive, ref float acceleration, float accelerationMultiplier)
     {
         isActive = true;
-        float speed = SnakeMovement.DefaultSpeed;
-        acceleration = speed * accelerationMultiplier - speed;
+        float defSpeed = SnakeMovement.DefaultSpeed;
+        acceleration = defSpeed * accelerationMultiplier - defSpeed;
         _snakeMovement.Speed += acceleration;
         _accelerationAnimation.gameObject.SetActive(true);
     }
@@ -287,12 +301,13 @@ public class Effects : MonoBehaviour
     
     private Sequence RunNotification(Color color)
     {
+        _drop.text = _langDropText.Translate;
         _drop.color = color;
         Sequence sequence = DOTween.Sequence();    
             sequence.Append(_drop.DOFade(1f, 0.5f));
             sequence.Append(_drop.DOFade(0f, 0.5f));
             sequence.SetLoops(-1, LoopType.Restart);
-        sequence.OnKill(() => _drop.color = _drop.color.Invisible());
+        sequence.OnKill(() => _drop.color = _drop.color.Fade());
         return sequence;
     }
 }

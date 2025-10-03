@@ -4,7 +4,6 @@ public class SnakeCollision : MonoBehaviour
 {
     [SerializeField] private SnakeMovement _snakeMovement;
     [SerializeField] private Health _health;
-    [SerializeField] private SaveSerial _saveSerial;
 
     public int StoneCollisionCount { get; private set; }
 

@@ -5,12 +5,13 @@ using UnityEngine;
 public class SpawnSkins : MonoBehaviour
 {
     [field:SerializeField] public InventoryArt InventoryArt { get; private set; }
-    [field:SerializeField] public Skin[] PrefabSkins { get; private set; }
 
     [SerializeField] private RectTransform _content;
-    [SerializeField] private SaveSerial _saveSerial;
 
     private List<Skin> _skins = new List<Skin>();
+    private Skin[] _prefabs;
+
+    private void Awake() => _prefabs = SaveSerial.Instance.SkinPrefabs;
 
     private void OnEnable()
     {
@@ -30,8 +31,8 @@ public class SpawnSkins : MonoBehaviour
 
     private void UpdateTab()
     {
-        SpawnFilter(PrefabSkins.Where(skin => skin.UnlockState).OrderBy(skin => skin.Rareness), true);
-        SpawnFilter(PrefabSkins.Where(skin => !skin.UnlockState), false);
+        SpawnFilter(_prefabs.Where(skin => skin.UnlockState).OrderBy(skin => skin.Rareness), true);
+        SpawnFilter(_prefabs.Where(skin => !skin.UnlockState), false);
     }
 
     public void SpawnFilter(IEnumerable<Skin> filteredSkins, bool clearTab)
@@ -49,27 +50,27 @@ public class SpawnSkins : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
-            foreach (var skin in PrefabSkins)
+            foreach (var skin in _prefabs)
             {
-                if (skin.GetType().ToString() == _saveSerial.LoadCurrentSkinType())
+                if (skin.GetType().ToString() == SaveSerial.Instance.LoadCurrentSkinType())
                     InventoryArt.ChangeArt(skin);
             }
         }
     }
 
-    public void SetUnclickableState()
+    public void SetUnclickableAll()
     {
         foreach (var skin in _skins)
         {
-            skin.GetComponent<ClickBehaviour>().ShadowDisable();
+            skin.ClickBehaviour.ShadowDisable();
         }
     }
 
-    public void SetUnselectedState()
+    public void SetUnselectedAll()
     {
         foreach (var skin in _skins)
         {
-            skin.GetComponent<ClickBehaviour>().SelectedDisable();
+            skin.ClickBehaviour.SelectedDisable();
         }
     }
 }

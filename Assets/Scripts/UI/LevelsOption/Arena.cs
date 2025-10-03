@@ -7,34 +7,35 @@ public class Arena : MonoBehaviour
 {
     [SerializeField] private LevelData[] _waves;
     [SerializeField] private MissionRequirements _requirements;
-    [SerializeField] private Level _lastLevel;
-    [SerializeField] private SaveSerial _saveSerial;
+    [SerializeField] private TranslatableString _description;
 
+    [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Sprite _unlock;
     [SerializeField] private Image _icon;
+    [SerializeField] private float _offset;
 
     private Button _button;
 
     public LevelData[] Waves => _waves;
-    public RectTransform RectTransform { get; private set; }
+    public Vector2 Position => _rectTransform.anchoredPosition;
 
-    private void Start()
+    public string Description => _description.Translate;
+    public float Offset => _offset;
+
+    private void Awake()
     {
-        RectTransform = GetComponent<RectTransform>();
         _button = GetComponent<Button>();
         _button.interactable = false;
+    }
 
-        if (_lastLevel.IsComplete())
+    private void OnEnable()
+    {
+        if (SaveSerial.Instance.Levels[^1].IsCompleted)
         {
             _button.interactable = true;
             _icon.sprite = _unlock;
             _icon.SetNativeSize();
         }
-    }
-
-    public string GetConditionText()
-    {
-        return "- Продержаться как можно дольше";
     }
 
     public void OnButtonClick()

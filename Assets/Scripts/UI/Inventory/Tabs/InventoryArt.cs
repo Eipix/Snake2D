@@ -7,13 +7,14 @@ public class InventoryArt : MonoBehaviour
 {
     [Header("Art")]
     [SerializeField] private Image _art;
-    [SerializeField] private Image _name;
     [SerializeField] private Image _light;
     [SerializeField] private TMP_Text _description;
+    [SerializeField] private TextMeshProUGUI _headline;
+    [SerializeField] private TranslatableString _langDescription;
 
-    [Header("IfArtNull")]
+    [Space]
     [SerializeField] private Sprite _question;
-    [SerializeField] private Sprite _noneText;
+    [SerializeField] private AssetText _assetText;
 
     [Header("Skill")]
     [SerializeField] private Sprite[] _skillIcons;
@@ -41,16 +42,16 @@ public class InventoryArt : MonoBehaviour
     public void ArtEmpty()
     {
         _art.sprite = _question;
-        _name.sprite = _noneText;
         _light.gameObject.SetActive(false);
-        _description.text = "“ут что-то когда-то будет...";
+        _skillIcon.gameObject.SetActive(false);
+        _description.text = _langDescription.Translate;
+        _headline.SetAssetText(_assetText);
         _art.SetNativeSize();
-        _name.SetNativeSize();
     }
 
     public void ChangeArt(IArtChanger item)
     {
-        item.ChangeArt(ref _art, ref _name, ref _light, ref _description);
+        item.ChangeArt(_art, _light, _description, _headline);
 
         if (item is Skin skin)       
             IfItemIsSkin(skin);
@@ -65,7 +66,7 @@ public class InventoryArt : MonoBehaviour
         _skillDescription.DOFade(0f, 0f);
 
         _skillIcon.sprite = _skillIcons[(int)skin.Skill];
-        _skillDescription.text = skin.SkillDescription;
+        _skillDescription.text = skin.SkillTranslate.Translate;
 
         _skillIcon.gameObject.SetActive(true);
     }

@@ -7,12 +7,9 @@ public class RatDashTrigger : MonoBehaviour
     private Rat _rat;
 
     private float _dashTimer = 0f;
-    private int _dashDelay = 30;
+    private int _dashDelay = 20;
 
-    public void Init(Rat rat)
-    {
-        _rat = rat;
-    }
+    public void Init(Rat rat) => _rat = rat;
 
     private void Update()
     {

@@ -29,9 +29,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2986239, y: 1.2986239, z: 1.2986239}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -88,13 +88,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: badfd612f2a14d248838b6a59779bebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
-  <IconArt>k__BackingField: {fileID: 21300000, guid: 7aa1aabd397a50742aa51ac1f12abd61, type: 3}
+  <LangName>k__BackingField:
+    <TranslateTexts>k__BackingField: []
+  <Sprite>k__BackingField: {fileID: 0}
+  <Shadowed>k__BackingField: {fileID: 0}
+  <Color>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  _smallIcon: {fileID: 21300000, guid: 63111110ac01d0442bc52685086824c5, type: 3}
+  <FullScreenIcon>k__BackingField: {fileID: 21300000, guid: 7aa1aabd397a50742aa51ac1f12abd61, type: 3}
   <Light>k__BackingField: {fileID: 21300000, guid: 69bce53c46315bc4fbc70210d5dd2908, type: 3}
-  <Headline>k__BackingField: {fileID: 21300000, guid: dc421ee075b1457449bf2563437a304b, type: 3}
-  <Description>k__BackingField: "\u0417\u0430\u043C\u0435\u0434\u043B\u044F\u0435\u0442
-    \u043C\u043E\u0431\u043E\u0432 \u043D\u0430 10 \u0441\u0435\u043A\u0443\u043D\u0434.
-    \u041C\u043E\u0436\u043D\u043E \u0432\u0437\u044F\u0442\u044C 5 \u0448\u0442\u0443\u043A.
-    \u041D\u0435 \u0447\u0430\u0449\u0435 1 \u0440\u0430\u0437\u0430 \u0432 20 \u0441\u0435\u043A\u0443\u043D\u0434."
+  <LangDescription>k__BackingField:
+    <TranslateTexts>k__BackingField:
+    - Slows down mobs for 10 seconds. You can have 5 of them. No more than once every
+      20 seconds.
+    - "\u0417\u0430\u043C\u0435\u0434\u043B\u044F\u0435\u0442 \u043C\u043E\u0431\u043E\u0432
+      \u043D\u0430 10 \u0441\u0435\u043A\u0443\u043D\u0434. \u041C\u043E\u0436\u043D\u043E
+      \u0432\u0437\u044F\u0442\u044C 5 \u0448\u0442\u0443\u043A. \u041D\u0435 \u0447\u0430\u0449\u0435
+      1 \u0440\u0430\u0437\u0430 \u0432 20 \u0441\u0435\u043A\u0443\u043D\u0434."
+    - "\xC7eteleri 10 saniye boyunca yava\u015Flat\u0131r. Bunlardan 5 tane alabilirsin.
+      Her 20 saniyede bir defadan fazla de\u011Fil."
+  <LangHeadline>k__BackingField:
+    <Text>k__BackingField:
+      <TranslateTexts>k__BackingField:
+      - Timer
+      - "\u0427\u0430\u0441\u044B"
+      - "Zamanlay\u0131c\u0131"
+    <Preset>k__BackingField: {fileID: 2100000, guid: 3b790280a8b0ce94c927f68caf85ecc7, type: 2}
+    <Color>k__BackingField: {r: 0.9607844, g: 0.6901961, b: 0.3137255, a: 1}
   <MaxToAdd>k__BackingField: 5
   <CoolDown>k__BackingField: 20
+  Used:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6045859677810756825, guid: 1a66bdc5aa54fa744919283449dc3889, type: 3}
+        m_TargetAssemblyTypeName: Achievement, Assembly-CSharp
+        m_MethodName: CheckCompletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

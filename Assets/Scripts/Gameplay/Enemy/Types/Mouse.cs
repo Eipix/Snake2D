@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Mouse : Enemy
 {
-    private float _delay = 0f;
+    public UnityEvent MouseDestroyed;
 
     protected override void Start()
     {
@@ -13,9 +14,7 @@ public class Mouse : Enemy
 
     protected override void Update()
     {
-        _delay += Time.deltaTime;
-
-        if (_delay < 3f)
+        if (References.CountdownToStart.LevelStarted == false)
             return;
 
         base.Update(); 
@@ -30,5 +29,19 @@ public class Mouse : Enemy
             if ((apple is RottenApple) == false)
                 apple.Deactivate();
         }
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        SaveSerial.Instance.Increment(1, SaveSerial.JsonPaths.DestroyedMouses);
+        References.Conditions.KillMouses++;
+        MouseDestroyed?.Invoke();
+    }
+
+    protected override void OnPoisoning()
+    {
+        base.OnPoisoning();
+        References.Conditions.PoisonMouses++;
     }
 }

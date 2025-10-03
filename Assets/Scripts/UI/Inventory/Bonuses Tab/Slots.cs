@@ -6,12 +6,9 @@ using TMPro;
 
 public class Slots : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
-    [SerializeField] private Bonus[] _bonusPrefabs;
-
     private Slot[] _slots = new Slot[3];
     private SlotCross[] _crosses = new SlotCross[3];
-
+    
     private void OnEnable()
     {
         Init();
@@ -39,7 +36,7 @@ public class Slots : MonoBehaviour
 
     private void SpawnBonuses()
     {
-        var bonusesInSlots = FilterArray(_bonusPrefabs, _saveSerial.LoadBonusInSlots());
+        var bonusesInSlots = FilterArray(SaveSerial.Instance.BonusPrefabs, SaveSerial.Instance.LoadBonusInSlots());
 
         for (int i = 0; i < bonusesInSlots.Count; i++)
         {
@@ -71,9 +68,10 @@ public class Slots : MonoBehaviour
             Bonus? bonus = _slots[i].GetComponentInChildren<Bonus>();
             if(bonus != null)
             {
-                if(_saveSerial.LoadBonusInSlots().ContainsKey(bonus.GetType().ToString()))
+                var bonusInSlots = SaveSerial.Instance.LoadBonusInSlots();
+                if (bonusInSlots.ContainsKey(bonus.GetType().ToString()))
                 {
-                    _slots[i].GetComponentInChildren<TMP_Text>().text = _saveSerial.LoadBonusInSlots()[bonus.GetType().ToString()].ToString();
+                    _slots[i].GetComponentInChildren<TMP_Text>().text = bonusInSlots[bonus.GetType().ToString()].ToString();
                 }
                 else
                 {
@@ -81,7 +79,6 @@ public class Slots : MonoBehaviour
                     _crosses[i].GetComponent<Image>().enabled = true;
                     _slots[i].GetComponentInChildren<TMP_Text>().text = "";
                 }
-
             }
         }
 #nullable disable

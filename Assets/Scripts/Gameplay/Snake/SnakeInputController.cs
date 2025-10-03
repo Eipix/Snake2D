@@ -1,51 +1,65 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SnakeInputController : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
+public class SnakeInputController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private SnakeMovement _snakeMovement;
-    [SerializeField] private SaveSerial _saveSerial;
+    [SerializeField] private GameObject[] _controllers;
 
     public Vector2 TouchPoint { get; private set; }
+    public Vector2 Direction { get; set; }
+
     public bool isTouch { get; private set; }
 
-    private float _deltaX, _deltaY;
+    private void Awake()
+    {
+        if (Controller.Instance != null)
+            _controllers[(int)Controller.Instance.Type].SetActive(true);
+        else
+            _controllers[0].SetActive(true);
+    }
+
+    private void OnEnable() => Controller.Instance.TypeChanged += ChangeController;
+    private void OnDisable() => Controller.Instance.TypeChanged -= ChangeController;
+
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            ChangeDirection(Vector2.up);
+            Direction = Vector2.up;
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            ChangeDirection(Vector2.left);
+            Direction = Vector2.left;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            ChangeDirection(Vector2.down);
+            Direction = Vector2.down;
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            ChangeDirection(Vector2.right);
+            Direction = Vector2.right;
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void ChangeController()
     {
-        _deltaX = eventData.delta.x;
-        _deltaY = eventData.delta.y;
+        foreach (var controller in _controllers)
+        {
+            controller.SetActive(false);
+        }
+        _controllers[(int)Controller.Instance.Type].SetActive(true);
     }
 
-    public void OnDrag(PointerEventData eventData) { }
-
-    public float GetDeltaX() => _deltaX;
-    public float GetDeltaY() => _deltaY;
-
-    public void ChangeDirection(Vector2 vector2)
+    public void MoveHorizontal(int direction)
     {
-        _deltaX = vector2.x;
-        _deltaY = vector2.y;
+        Direction = new Vector2(direction, 0f);
+    }
+
+    public void MoveVertical(int direction)
+    {
+        Direction = new Vector2(0f, direction);
     }
 
     public void OnPointerDown(PointerEventData eventData)

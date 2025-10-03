@@ -1,25 +1,36 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ClickBehaviour : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private Image _shadow;
     [SerializeField] private Image _selected;
 
+    private Skin _skin;
     private SpawnSkins _skins;
 
-    private string _skinType;
     private float _timer;
     private bool _isButtonClick;
 
-    private void Start()
+    private void Awake()
     {
-        _skins = GetComponentInParent<SpawnSkins>();
-        _skinType = GetComponent<Skin>().GetType().ToString();
+        if (SceneManager.GetActiveScene().name != "Menu")
+            return;
 
-        if (_skinType == _saveSerial.LoadCurrentSkinType())
-            SetCurrent();
+        _skins = GetComponentInParent<SpawnSkins>();
+        _skin = GetComponent<Skin>();
+
+        var skinType = _skin.GetType().ToString();
+        var savedSkinType = SaveSerial.Instance.LoadCurrentSkinType();
+
+        if (skinType == savedSkinType)
+        {
+            if (_skin.UnlockState)
+                Equip(_skin);
+            else
+                Equip(null, false);
+        }
     }
 
     private void Update()
@@ -30,13 +41,13 @@ public class ClickBehaviour : MonoBehaviour
 
     public void OnSkinClick()
     {
-        _skins.SetUnclickableState();
+        _skins.SetUnclickableAll();
         _shadow.enabled = true;
-        _skins.InventoryArt.ChangeArt(GetComponent<Skin>());
+        _skins.InventoryArt.ChangeArt(_skin);
 
         if (_timer < 0.3f && _isButtonClick)
         {
-            SetCurrent();
+            Equip(_skin);
         }
         else if (_timer > 0.3f)
         {
@@ -46,14 +57,14 @@ public class ClickBehaviour : MonoBehaviour
         _isButtonClick = true;
     }
 
-    public void SetCurrent()
+    private void Equip(Skin skin, bool selectedEnable = true)
     {
-        _saveSerial.SaveCurrentSkin(GetComponent<Skin>());
-        _skins.SetUnselectedState();
-        _selected.enabled = true;
+        SaveSerial.Instance.SaveCurrentSkin(skin);
+        _skins.SetUnselectedAll();
+
+        _selected.enabled = selectedEnable;
     }
 
     public void ShadowDisable() => _shadow.enabled = false;
     public void SelectedDisable() => _selected.enabled = false;
-
 }

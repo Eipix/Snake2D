@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private EnemyReferences _enemyReferences;
     [SerializeField] private EnemyData[] _allEnemyPrefabs;
 
@@ -13,20 +12,23 @@ public class EnemyPool : MonoBehaviour
 
     private void Awake()
     {
-        if (_saveSerial.ArenaMode)
+        var waves = SaveSerial.Instance.Waves;
+        var data = SaveSerial.Instance.Data;
+
+        if (SaveSerial.Instance.Mode == LevelMode.Arena)
         {
-            for (int i = 0; i < _saveSerial.Waves[_saveSerial.Waves.Length - 1].MaxEnemyCount; i++)
+            for (int i = 0; i < waves.Max(wave => wave.MaxEnemyCount); i++)
             {
                 InstantiateEnemies(_allEnemyPrefabs);
             }
             return;
         }
 
-        for (int i = 0; i < _saveSerial.Data.MaxEnemyCount; i++)
+        for (int i = 0; i < data.MaxEnemyCount; i++)
         {
-            InstantiateEnemies(_saveSerial.Data.EnemyData);
+            InstantiateEnemies(data.EnemyData);
         }
-        InstantiateEnemies(_saveSerial.Data.Bosses);
+        InstantiateEnemies(data.Bosses);
     }
 
     public Enemy Take(Type enemyType, Transform parent, Vector2 position, Quaternion rotation)
@@ -36,6 +38,7 @@ public class EnemyPool : MonoBehaviour
             enemy.transform.SetParent(parent);
             enemy.transform.position = position;
             enemy.transform.rotation = rotation;
+            
             enemy.gameObject.SetActive(true);
             enemy.Revive();
             _allEnemys.Remove(enemy);
@@ -52,8 +55,17 @@ public class EnemyPool : MonoBehaviour
         enemy.transform.SetParent(transform);
         enemy.transform.position = transform.position;
         enemy.transform.rotation = Quaternion.identity;
+        enemy.Renderer.color = Color.white;
         enemy.gameObject.SetActive(false);
         _allEnemys.Add(enemy);
+    }
+
+    public void AddEnemies(Enemy prefab, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            AddEnemy(prefab);
+        }
     }
 
     private bool TryGetEnemyByType(Type type, out Enemy enemy)
@@ -66,13 +78,17 @@ public class EnemyPool : MonoBehaviour
     {
         foreach (var data in datas)
         {
-            var enemyPrefab = Instantiate(data.EnemyPrefab.gameObject, transform.position, Quaternion.identity, transform);
-            enemyPrefab.SetActive(false);
-
-            var enemy = enemyPrefab.GetComponent<Enemy>();
-            enemy.Init(_enemyReferences);
-
-            _allEnemys.Add(enemy);
+            AddEnemy(data.EnemyPrefab);
         }
+    }
+
+    private void AddEnemy(Enemy prefab)
+    {
+        var enemyPrefab = Instantiate(prefab.gameObject, transform.position, Quaternion.identity, transform);
+        enemyPrefab.SetActive(false);
+        var enemy = enemyPrefab.GetComponent<Enemy>();
+        enemy.Init(_enemyReferences);
+
+        _allEnemys.Add(enemy);
     }
 }

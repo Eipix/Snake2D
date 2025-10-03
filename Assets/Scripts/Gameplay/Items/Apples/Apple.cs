@@ -1,21 +1,25 @@
 using System;
-using UnityEngine;
 
 public abstract class Apple : Item
 {
-    [field:SerializeField] public SaveSerial SaveSerial {get; private set;}
-
     private GenerationArea _generator;
+    public CountdownToStart Countdown { get; protected set; }
 
-    public void Init(GenerationArea generator)
+    public void Init(GenerationArea generator, CountdownToStart countdown)
     {
         _generator = generator;
+        Countdown = countdown;
     }
+
+    public virtual void Activate() => gameObject.SetActive(true);
 
     public void Deactivate()
     {
         if (_generator == null)
             throw new NullReferenceException("Apple is not init");
+
+        if(gameObject.activeSelf == false)
+            return;
 
         _generator.RemoveApple(this);
         _generator.AppleGeneration();

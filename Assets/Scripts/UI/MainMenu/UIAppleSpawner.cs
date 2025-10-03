@@ -4,21 +4,10 @@ using UnityEngine;
 public class UIAppleSpawner : MonoBehaviour
 {
     [SerializeField] private UIApple[] _apples;
-    [SerializeField] private Wallet _wallet;
-    [SerializeField] private MainMenuButtons _menu;
 
-    private void Awake()
-    {
-        foreach (var apple in _apples)
-        {
-            apple.Init(_wallet, _menu, this);
-        }
-    }
+    private void Awake() => _apples.ForEach(apple => apple.Init(this));
 
-    private void Start()
-    {
-        StartCoroutine(Respawn());
-    }
+    private void Start() => StartCoroutine(Respawn());
 
     private IEnumerator Respawn()
     {
@@ -33,16 +22,5 @@ public class UIAppleSpawner : MonoBehaviour
         }
     }
 
-    public void RespawnCoroutine()
-    {
-        StartCoroutine(Respawn());
-    }
-
-    private void DisableAll()
-    {
-        foreach (var apple in _apples)
-        {
-            apple.gameObject.SetActive(false);
-        }
-    }
+    public void RespawnCoroutine() => StartCoroutine(Respawn());
 }

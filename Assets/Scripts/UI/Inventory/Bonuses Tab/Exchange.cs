@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using TMPro;
 
 public class Exchange : MonoBehaviour
@@ -11,42 +10,36 @@ public class Exchange : MonoBehaviour
     [SerializeField] private RectTransform _slotForBuy;
 
     [SerializeField] private TMP_Text _counter;
-    [SerializeField] private RectTransform _confirmationPanel;
-    [SerializeField] private Notification _notification;
 
-    [SerializeField] private Button _confirm;
-    [SerializeField] private Button _cancel;
-
-    [SerializeField] private Bonus[] _prefabBonuses;
     [SerializeField] private List<Offer> _offers = new List<Offer>();
 
     private BonusesTab _bonusesTab;
     private DateTime _endTime;
 
-    public UnityAction<string> Clicked;
-
-    private void OnEnable()
-    {
-        Clicked += _notification.Notify;
-    }
-
     private void OnDisable()
     {        
         PlayerPrefs.SetString("ExchangeTime", _endTime.ToString());
-        Clicked -= _notification.Notify;
     }
 
     private void Start()
     {
         _bonusesTab = GetComponentInParent<BonusesTab>();
-        _confirmationPanel.gameObject.SetActive(false);
 
-        _offers.Add(new Offer(7, 1, _prefabBonuses[1], _prefabBonuses[3]));
-        _offers.Add(new Offer(9, 1, _prefabBonuses[4], _prefabBonuses[2]));
-        _offers.Add(new Offer(3, 1, _prefabBonuses[6], _prefabBonuses[3]));
-        _offers.Add(new Offer(6, 1, _prefabBonuses[0], _prefabBonuses[2]));
-        _offers.Add(new Offer(3, 1, _prefabBonuses[5], _prefabBonuses[3]));
-        _offers.Add(new Offer(7, 1, _prefabBonuses[7], _prefabBonuses[2]));
+        var coin = Get(typeof(Coin));
+        var goldPeach = Get(typeof(GoldPeach));
+        var cheese = Get(typeof(Cheese));
+        var bomb = Get(typeof(Bomb));
+        var timer = Get(typeof(Timer));
+        var peach = Get(typeof(Peach));
+        var iceCube = Get(typeof(IceCube));
+        var lightning = Get(typeof(Lightning));
+
+        _offers.Add(new Offer(7, 1, cheese, goldPeach));
+        _offers.Add(new Offer(9, 1, iceCube, coin));
+        _offers.Add(new Offer(3, 1, peach, goldPeach));
+        _offers.Add(new Offer(6, 1, bomb, coin));
+        _offers.Add(new Offer(3, 1, lightning, goldPeach));
+        _offers.Add(new Offer(7, 1, timer, coin));
 
         LoadOffer(_slotForSell, "SavedBonusForSell", 0);
         LoadOffer(_slotForBuy, "SavedBonusForBuy", 1);
@@ -65,6 +58,13 @@ public class Exchange : MonoBehaviour
         }
     }
 
+    public Bonus Get(Type type)
+    {
+        return SaveSerial.Instance.BonusPrefabs
+            .Where(bonus => bonus.GetType() == type)
+            .FirstOrDefault();
+    }
+
     public void OnExchangeClick()
     {
         if (PlayerPrefs.HasKey("SavedBonusForSell") && PlayerPrefs.HasKey("SavedBonusForBuy"))
@@ -72,13 +72,14 @@ public class Exchange : MonoBehaviour
             int offerToTake = PlayerPrefs.GetInt("SavedBonusForSell");
             int amountToTake = _offers[offerToTake].Amounts[0];
 
-            if (_offers[offerToTake].Bonuses[0].GetAmount() >= amountToTake)
-            {               
-                _confirmationPanel.gameObject.SetActive(true);
+            if (_offers[offerToTake].Bonuses[0].Amount >= amountToTake)
+            {
+                ConfirmationNotification.Instance.Show(() => OnConfirmClick());
             }
             else
             {
-                Clicked?.Invoke("Недостаточно ресурсов");
+                string translatedText = Notification.Instance.LangNotEnoughRes.Translate;
+                Notification.Instance.Notify(translatedText);
             }
         }
         else
@@ -100,29 +101,37 @@ public class Exchange : MonoBehaviour
 
         _bonusesTab.UpdateCells();
 
-        _confirmationPanel.gameObject.SetActive(false);     
-    }
+        Debug.Log("Exchange result was saved in sdk");
 
-    public void OnCancelClick() 
-    {
-        _confirmationPanel.gameObject.SetActive(false);
+#if UNITY_WEBGL && !UNITY_EDITOR
+        SaveSerial.Instance.SaveGame();
+#endif
     }
 
     public void LoadOffer(RectTransform slot, string key, int LeftRightBonus)
     {
         if (PlayerPrefs.HasKey(key))
-        {          
+        {
             int index = PlayerPrefs.GetInt(key);
             var amount = slot.GetComponentInChildren<TMP_Text>();
 
             Instantiate(_offers[index].Bonuses[LeftRightBonus], slot.transform);
             amount.text = _offers[index].Amounts[LeftRightBonus].ToString();
         }
+        else
+        {
+            Debug.Log("not key in exchange");
+            var amount = slot.GetComponentInChildren<TMP_Text>();
+            int randomOffer = UnityEngine.Random.Range(0, _offers.Count);
+
+            Instantiate(_offers[randomOffer].Bonuses[LeftRightBonus].gameObject, slot.transform);
+            amount.text = _offers[randomOffer].Amounts[LeftRightBonus].ToString();
+            PlayerPrefs.SetInt(LeftRightBonus == 0 ? "SavedBonusForSell" : "SavedBonusForBuy", randomOffer);
+        }
     }
 
     public void UpdateOffer(RectTransform slot, int LeftRightBonus)
     {
-        _confirmationPanel.gameObject.SetActive(false);
         _endTime = DateTime.Now.AddMinutes(4 - (DateTime.Now.Minute % 5)).AddSeconds(60 - DateTime.Now.Second);
 
         Destroy(slot.GetComponentInChildren<Bonus>()?.gameObject);

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ApplePool : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
+    [SerializeField] private CountdownToStart _countdown;
     [SerializeField] private GenerationArea _generator;
 
     private List<Apple> _allApples = new List<Apple>();
@@ -22,7 +22,7 @@ public class ApplePool : MonoBehaviour
             apple.transform.SetParent(parent);
             apple.transform.position = position;
             apple.transform.rotation = rotation;
-            apple.gameObject.SetActive(true);
+            apple.Activate();
             _allApples.Remove(apple);
             return apple;
         }
@@ -44,10 +44,9 @@ public class ApplePool : MonoBehaviour
     public void AddGoldApple()
     {
         var gold = _generator.ApplePrefabs[1];
-        var instance = Instantiate(gold.gameObject, transform);
-        instance.SetActive(false);
-        var apple = instance.GetComponent<Apple>();
-        apple.Init(_generator);
+        var apple = Instantiate(gold, transform);
+        apple.Init(_generator, _countdown);
+        apple.gameObject.SetActive(false);
         _allApples.Add(apple);
     }
 
@@ -61,13 +60,12 @@ public class ApplePool : MonoBehaviour
     {
         foreach (var typeOfApple in _generator.ApplePrefabs)
         {
-            for (int i = 0; i < _saveSerial.Data.MaxAppleCount; i++)
+            int maxAppleCount = SaveSerial.Instance.Data.MaxAppleCount;
+            for (int i = 0; i < maxAppleCount; i++)
             {
-                var instance = Instantiate(typeOfApple.gameObject, transform);
-                instance.SetActive(false);
-
-                var apple = instance.GetComponent<Apple>();
-                apple.Init(_generator);
+                var apple = Instantiate(typeOfApple, transform);
+                apple.Init(_generator, _countdown);
+                apple.gameObject.SetActive(false);
                 _allApples.Add(apple);
             }
         }

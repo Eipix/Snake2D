@@ -1,0 +1,918 @@
+fileFormatVersion: 2
+guid: e32446fff69ff3c48b13f06321394f4c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: goldApple_donate_6
+      rect:
+        serializedVersion: 2
+        x: 1359
+        y: 870
+        width: 144
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51a60fe345342cd4a953923a5b07042a
+      internalID: -1061484438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coiner_Kit
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 622
+        width: 274
+        height: 392
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff914c4c284236446b15f71748cb16ba
+      internalID: -1172912757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconGoldApple
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 937
+        width: 62
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a4efaf02f8103b4cb8e081a8adceea5
+      internalID: 1402760605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconRedApple
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 937
+        width: 62
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4ac4e071a1f264887a2942a2693a91
+      internalID: 1085311047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: oval
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 917
+        width: 99
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02c830070adbe634595b39e3a263e8b4
+      internalID: -702931397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_1
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 874
+        width: 174
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 400ac9836c47fcd499a6f28ffef30021
+      internalID: 1027353048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_2
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 874
+        width: 147
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a849a4996fbcab546a2c46c0532ba9eb
+      internalID: 350916591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_3
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 858
+        width: 188
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eca626bd3857f4469177597333856da
+      internalID: 1559513620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_4
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 872
+        width: 184
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2bb2404a55acef488c6219fb7195334
+      internalID: -2057125496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_5
+      rect:
+        serializedVersion: 2
+        x: 1137
+        y: 888
+        width: 200
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bae648feee5dd4740820e93c2a26dd65
+      internalID: -720928181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ad
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 873
+        width: 66
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 015ff428fdb7b9e479e9d2d9e09209d3
+      internalID: -661974326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yan
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 869
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f98311810d850464685eba38dd84bc7d
+      internalID: -440222032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini redApple
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 860
+        width: 33
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ee9521519dde58489951072b0317b7b
+      internalID: -679397106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notify circle
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 814
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c7a285be4ab4654cac8f770e96d721a
+      internalID: 1691131908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: oval transparent panel
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 823
+        width: 148
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95eec8539c5b45a4fa1aed38a050790d
+      internalID: 274199005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_4
+      rect:
+        serializedVersion: 2
+        x: 929
+        y: 704
+        width: 184
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e89c53fa5a54adf47bdb7aa2ebb5186f
+      internalID: 1036185342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_6
+      rect:
+        serializedVersion: 2
+        x: 1359
+        y: 717
+        width: 144
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61c6515a8bdd0634cadccead165c1fcc
+      internalID: 422004923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cloud
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 630
+        width: 198
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f363e19fca074a145a1ff97a50eda4ff
+      internalID: 804227643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini goldApple
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 809
+        width: 34
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bf159661ebe02f4591eed5208de589b
+      internalID: -1852436312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_1
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 726
+        width: 174
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0c6dcd71c675bf469f193b7efad2f9a
+      internalID: -374935033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_2
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 714
+        width: 147
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b016238ce9fb671429c9017d75c02bbc
+      internalID: -162071596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_3
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 696
+        width: 191
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a011646b393cca4480cc772dc68c3cb
+      internalID: -323263046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_5
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 732
+        width: 200
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d037fb403ef670c478b8b38425b6bbfa
+      internalID: -529746733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini kit
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 743
+        width: 41
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5264b710e4d85242924332606a83353
+      internalID: -2039004904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini gift
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 694
+        width: 29
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cd7419171ee1644094da59d2e560527
+      internalID: 1222466880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redCorner
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 595
+        width: 114
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc683ce4ad19c3142a80f75788759aac
+      internalID: -297403847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 558
+        width: 362
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec3c15c97db1d2745b552171692525c3
+      internalID: 1302925998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigRedApple
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 7
+        width: 325
+        height: 305
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e1cf88432e591042950a84f666134fa
+      internalID: 1870163994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: backlight_kit
+      rect:
+        serializedVersion: 2
+        x: 1517
+        y: 90
+        width: 475
+        height: 468
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80b16c6abf9927741a3e960273c8de4a
+      internalID: 502658921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redApple_donate_7
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 31
+        width: 487
+        height: 513
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb06d6e6435b0544ba60ac843e18378c
+      internalID: -1239011276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldApple_donate_7
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 24
+        width: 487
+        height: 513
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8838e5f1cc7c7043b1176aa57ce80b3
+      internalID: -771978761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigGoldApple
+      rect:
+        serializedVersion: 2
+        x: 1147
+        y: 322
+        width: 325
+        height: 305
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5debc2ca673943847944d13108271211
+      internalID: 1077328508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Atlas_donate shop_1: 1388870426
+      Atlas_donate shop_14: 636386995
+      Atlas_donate shop_15: 1478658560
+      Atlas_donate shop_16: 1540132889
+      Atlas_donate shop_19: -384396160
+      Atlas_donate shop_2: 1662545810
+      Atlas_donate shop_20: -1306216521
+      Atlas_donate shop_21: -795674710
+      Atlas_donate shop_23: -1770835780
+      Atlas_donate shop_24: -1773539382
+      Atlas_donate shop_25: -774922375
+      Atlas_donate shop_27: 1208368226
+      Atlas_donate shop_29: 301607667
+      Atlas_donate shop_3: 1400614935
+      Atlas_donate shop_30: -1944431479
+      Atlas_donate shop_31: -606688247
+      Atlas_donate shop_41: -1291345378
+      Atlas_donate shop_42: 1561688710
+      Atlas_donate shop_43: 1469125562
+      Atlas_donate shop_44: 1286695483
+      Atlas_donate shop_45: -119956392
+      Atlas_donate shop_46: -139867084
+      Atlas_donate shop_48: -1888995100
+      Atlas_donate shop_49: 1131045572
+      Atlas_donate shop_52: 579375975
+      Atlas_donate shop_53: -1739131902
+      Atlas_donate shop_54: -1328839756
+      Atlas_donate shop_55: -206505071
+      Atlas_donate shop_56: -972293436
+      Atlas_donate shop_58: -260938478
+      Atlas_donate shop_59: 733516721
+      Atlas_donate shop_60: -1452708687
+      Atlas_donate shop_61: 650480654
+      Atlas_donate shop_62: -1636078069
+      Atlas_donate shop_63: 1983367635
+      Atlas_donate shop_65: -1506299066
+      Atlas_donate shop_66: -1616819297
+      Atlas_donate shop_67: 1685111819
+      Atlas_donate shop_68: -1395525738
+      Atlas_donate shop_69: 414249024
+      Atlas_donate shop_70: -1747525631
+      Atlas_donate shop_71: -1103931928
+      Atlas_donate shop_73: -54240651
+      Atlas_donate shop_75: -325826156
+      Atlas_donate shop_76: 1200235129
+      Atlas_donate shop_77: 1592325742
+      Atlas_donate shop_78: 291950408
+      Atlas_donate shop_79: 38324973
+      Atlas_donate shop_80: 1386806604
+      Atlas_donate shop_81: -46446160
+      Atlas_donate shop_82: -816472525
+      Atlas_donate shop_83: -419905383
+      Atlas_donate shop_84: 911704515
+      Atlas_donate shop_85: -1271814798
+      Atlas_donate shop_86: -335201002
+      Atlas_donate shop_87: -1046346446
+      Atlas_donate shop_88: -733498745
+      Atlas_donate shop_89: 366350956
+      Atlas_donate shop_90: 775237427
+      Atlas_donate shop_91: 623485232
+      Atlas_donate shop_92: 2018813314
+      BigGoldApple: -677776326
+      BigRedApple: 1870163994
+      Coiner_Kit: -1172912757
+      IconGoldApple: 1402760605
+      IconRedApple: 1085311047
+      ad: -661974326
+      backlight_kit: 502658921
+      button: 1302925998
+      cloud: 804227643
+      goldApple_donate_1: 1027353048
+      goldApple_donate_2: 350916591
+      goldApple_donate_3: 1559513620
+      goldApple_donate_4: -2057125496
+      goldApple_donate_5: -720928181
+      goldApple_donate_6: -1061484438
+      goldApple_donate_7: -771978761
+      mini gift: 1222466880
+      mini goldApple: -1852436312
+      mini kit: -2039004904
+      mini redApple: -679397106
+      notify circle: 1691131908
+      oval: -702931397
+      oval transparent panel: 274199005
+      redApple_donate_1: -374935033
+      redApple_donate_2: -162071596
+      redApple_donate_3: -323263046
+      redApple_donate_4: 1036185342
+      redApple_donate_5: -529746733
+      redApple_donate_6: 422004923
+      redApple_donate_7: -1239011276
+      redCorner: -297403847
+      yan: -440222032
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

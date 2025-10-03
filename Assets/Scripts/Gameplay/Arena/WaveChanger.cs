@@ -1,17 +1,16 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 [RequireComponent(typeof(NewWaveAnimation))]
 [RequireComponent(typeof(WaveTimer))]
 [RequireComponent(typeof(WavePopup))]
 public class WaveChanger : MonoBehaviour
 {
-    [SerializeField] private Sprite[] _waveNumbers;
+    [SerializeField] private CountdownToStart _countdown;
     [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private SaveSerial _saveSerial;
-    [SerializeField] private Image _number;
+    [SerializeField] private TextMeshProUGUI _number;
     [SerializeField] private int _waveDuration;
 
     public UnityAction<int> OnWaveChanged;
@@ -24,6 +23,7 @@ public class WaveChanger : MonoBehaviour
 
     private void Awake()
     {
+        _number.text = "1";
         _newWaveAnimation = GetComponent<NewWaveAnimation>();
         _timer = GetComponent<WaveTimer>();
         _popup = GetComponent<WavePopup>();
@@ -36,34 +36,35 @@ public class WaveChanger : MonoBehaviour
         Debug.LogWarning("Data was changed by arena mode");
     }
 
-    private void OnDisable()
-    {
-        OnWaveChanged -= _popup.GetReward;
-    }
+    private void OnDisable() => OnWaveChanged -= _popup.GetReward;
 
     private void Update()
     {
-        if(_timer.Remain < 0f && _waveIndex < _saveSerial.Waves.Length)
+        if (_countdown.LevelStarted == false)
+            return;
+
+        if (WaveComplete())
         {
             OnWaveChanged?.Invoke(_waveIndex);
             ChangeWave(++_waveIndex);
         }
 
-        if (_waveIndex < _saveSerial.Waves.Length)
+        if (_waveIndex < SaveSerial.Instance.Waves.Length)
             _timer.Remain -= Time.deltaTime;
     }
 
     private void ChangeWave(int index)
     {
-        if (index >= _saveSerial.Waves.Length)
+        if (index >= SaveSerial.Instance.Waves.Length)
             return;
 
-        _saveSerial.Data = _saveSerial.Waves[index];
-        _number.sprite = _waveNumbers[index];
-        _number.SetNativeSize();
+        SaveSerial.Instance.Data = SaveSerial.Instance.Waves[index];
+        _number.text = (index + 1).ToString();
 
         _newWaveAnimation.PlayOneShot();
         _enemySpawner.SpawnToTheLimit();
         _timer.Set(new TimeSpan(0, 0, _waveDuration));
     }
+
+    private bool WaveComplete() => _timer.Remain < 0f && _waveIndex < SaveSerial.Instance.Waves.Length;
 }

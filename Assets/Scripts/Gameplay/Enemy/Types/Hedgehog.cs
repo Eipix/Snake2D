@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Hedgehog : Enemy
 {
-    private float _delay = 0f;
+    public UnityEvent HedgehogDestroyed;
 
     protected override void Start()
     {
@@ -13,9 +14,7 @@ public class Hedgehog : Enemy
 
     protected override void Update()
     {
-        _delay += Time.deltaTime;
-
-        if (_delay < 3f)
+        if (References.CountdownToStart.LevelStarted == false)
             return;
 
         base.Update();
@@ -25,7 +24,7 @@ public class Hedgehog : Enemy
     {
         if (collision.gameObject.TryGetComponent(out CheeseEffect effect))
         {
-            Conditions.DistractHedgehogs++;
+            References.Conditions.DistractHedgehogs++;
             effect.Eating(this);
         }
 
@@ -36,8 +35,22 @@ public class Hedgehog : Enemy
         }
     }
 
-    public void IncreaseConditionFreeze()
+    public override void OnDeath()
     {
-        Conditions.FreezeHedgehogs++;
+        base.OnDeath();
+        SaveSerial.Instance.Increment(1, SaveSerial.JsonPaths.DestroyedHedgehogs);
+        HedgehogDestroyed?.Invoke();
+    }
+
+    protected override void OnPoisoning()
+    {
+        base.OnPoisoning();
+        References.Conditions.PoisonHedgehogs++;
+    }
+
+    protected override void OnFreeze()
+    {
+        base.OnFreeze();
+        References.Conditions.FreezeHedgehogs++;
     }
 }

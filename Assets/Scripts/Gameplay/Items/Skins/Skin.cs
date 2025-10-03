@@ -3,18 +3,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
-public abstract class Skin : MonoBehaviour, IArtChanger
+public abstract class Skin : MonoBehaviour, IArtChanger, IGachaReward, IGachaCompensation, IProduct
 {
-    [field:Header("IArtChanger")]
-    [field:SerializeField] public Sprite IconArt { get; set; }
-    [field: SerializeField] public Sprite Light { get; set; }
-    [field: SerializeField] public Sprite Headline { get; set; }
-    [field:TextArea]
-    [field:SerializeField] public string Description { get; set; }
+    [field: Header("IGachaReward")]
+    [field: SerializeField] public Sprite Icon { get; set; }
 
-    [Header("References")]
-    [SerializeField] protected SaveSerial saveSerial;
+
+    [field: Header("IGachaCompensation")]
+    [field: SerializeField] public ItemCountPair Pair { get; set; }
+
+    [field:Header("IArtChanger")]
+    [field:SerializeField] public Sprite FullScreenIcon { get; set; }
+    [field: SerializeField] public Sprite Light { get; set; }
+    [field: SerializeField] public TranslatableString LangDescription { get; set; }
+    [field: SerializeField] public AssetText LangHeadline { get; set; }
 
     [Header("Components")]
     [SerializeField] protected Image ironLock;
@@ -22,6 +26,7 @@ public abstract class Skin : MonoBehaviour, IArtChanger
     [SerializeField] protected Image outlight;
     [SerializeField] protected Image avatar;
     [SerializeField] private Button _button;
+    [field:SerializeField, Required] public ClickBehaviour ClickBehaviour { get; private set; }
 
     [Header("Sprites")]
     [SerializeField] private Sprite[] _partsToLoadAtLevel;
@@ -30,62 +35,49 @@ public abstract class Skin : MonoBehaviour, IArtChanger
     [SerializeField] private Sprite _skillIcon;
     [SerializeField] private Sprite _activationSkillIcon;
 
-    [Header("Characteristis")]
-    [SerializeField] protected Rarity rareness;
+    [field:Header("Characteristis")]
+    [field: SerializeField] public Rarity Rarity { get; set; }
     [SerializeField] protected CombatSkill skill;
     [SerializeField] private int _cooldown;
+    [field:SerializeField] public TranslatableString SkillTranslate { get; private set; }
+    [field: SerializeField] public TranslatableString UpgradeTranslate { get; private set; }
 
     public Sprite SkillIcon => _skillIcon;
-    public Sprite ActivationSkillIcon => _activationSkillIcon;  
+    public Sprite ActivationSkillIcon => _activationSkillIcon;
+    public Sprite Outlight => outlight.sprite;
     public SkinReferences References { get; private set; }
 
-    public Rarity Rareness => rareness;
+    public Rarity Rareness => Rarity;
     public CombatSkill Skill => skill;
+
     public bool UnlockState
     {
-        get => saveSerial.LoadLockState(this.GetType());
+        get => SaveSerial.Instance.LoadLockState(GetType());
         private set
         {
-            saveSerial.SaveDataSkin(GetComponent<Skin>(), value);
+            SaveSerial.Instance.SaveDataSkin(this, value);
             if (value) SetUnlockState();
             else SetLockState();
         }
     }
+
+    public virtual string CurrentLevelText => "";
+    public virtual string NextLevelText => "";
+
     public int Cooldown => _cooldown;
+    protected int SkillLevel => SaveSerial.Instance.LoadSkinSkill(this);
+    protected bool IsSkillMaxLevel => SkillLevel >= SkillMaxLevel;
 
-    public string SkillDescription => _skillDescriptions[(int)skill];
-    public string UpgradeDescription => _upgradeDescription[(int)skill];
-    protected int SkillLevel { get; private set; }
+    private const int SkillMaxLevel = 9;
 
-    private readonly string[] _skillDescriptions =
-    {
-        "Не имеет особых свойств",
-        "Заморозка",
-        "Ускорение/Электро-разряд",
-        "Взрыв",
-        "Помощь леса",
-        "Неуязвимость",
-        "Богатство"
-    };
-    private readonly string[] _upgradeDescription =
-    {
-        "",
-        "Увеличивает длительность заморозки на 1 секунду",
-        "Уменьшает перезарядку навыка на 1 секунду",
-        "Увеличивает шанс нанести 2 ед. урона на 2%",
-        "Увеличивает шанс сценария 2 на 3%",
-        "Увеличивает длительность неуязвимости на 1 секунду",
-        "Увеличивает шанс появления золотых яблок на 1%"
-    };
-
-    protected virtual void OnEnable() => UnlockState = saveSerial.LoadLockState(this.GetType());
+    protected virtual void OnEnable() => UnlockState = SaveSerial.Instance.LoadLockState(GetType());
 
     protected virtual void Start()
     {
         if (SceneManager.GetActiveScene().name == "Menu")
+        {
             avatar.SetNativeSize();
-
-        SkillLevel = saveSerial.LoadSkinSkill(this);
+        }
     }
 
     protected virtual void OnInit() { }
@@ -96,38 +88,53 @@ public abstract class Skin : MonoBehaviour, IArtChanger
         OnInit();
     }
 
-    public void ChangeArt(ref Image art, ref Image name, ref Image light, ref TMP_Text description)
+    public void ChangeArt(Image art, Image light, TMP_Text description, TextMeshProUGUI headline)
     {
-        art.sprite = IconArt;
-        name.sprite = Headline;
+        art.sprite = FullScreenIcon;
         light.sprite = Light;
-        description.text = Description;
+        description.text = LangDescription.Translate;
 
         light.gameObject.SetActive(true);
+        headline.SetAssetText(LangHeadline);
         art.SetNativeSize();
-        name.SetNativeSize();
         light.SetNativeSize();
+    }
+
+    public void Receive(int count) => GetReward();
+
+    public GachaResults GetReward()
+    {
+        if (UnlockState)
+        {
+            return Compensate();
+        }
+        else
+        {
+            Unlock();
+            return GachaResults.New;
+        }
+    }
+
+    public GachaResults Compensate()
+    {
+        if (IsSkillMaxLevel || Rarity == Rarity.Common)
+        {
+            Pair.Item.Add(Pair.Count, false);
+            return GachaResults.Compensation;
+        }
+        else
+        {
+            SaveSerial.Instance.SaveParametr(SkillLevel + 1, equippedSkin: this);
+            return GachaResults.Upgrade;
+        }
     }
 
     public abstract void SkillActivation();
 
-    protected void SetLockState()
+    public void Block()
     {
-        avatar.sprite = _avatarLock;
-        ironLock.enabled = true;
-        outlight.enabled = false;
-        outline.enabled = false;
-        _button.interactable = false;
-    }
-
-    protected void SetUnlockState()
-    {
-        avatar.sprite = _avatarUnlock;
-        avatar.SetNativeSize();
-        ironLock.enabled = false;
-        outlight.enabled = true;
-        outline.enabled = true;
-        _button.interactable = true;
+        UnlockState = false;
+        SaveSerial.Instance.SaveSkinSkill(0, this);
     }
 
     public void Unlock() => UnlockState = true;
@@ -159,6 +166,25 @@ public abstract class Skin : MonoBehaviour, IArtChanger
 
         animator.SetTrigger(trigger);
     }
+
+    private void SetLockState()
+    {
+        avatar.sprite = _avatarLock;
+        ironLock.enabled = true;
+        outlight.enabled = false;
+        outline.enabled = false;
+        _button.interactable = false;
+    }
+
+    private void SetUnlockState()
+    {
+        avatar.sprite = _avatarUnlock;
+        avatar.SetNativeSize();
+        ironLock.enabled = false;
+        outlight.enabled = true;
+        outline.enabled = true;
+        _button.interactable = true;
+    }
 }
 
 [Serializable]
@@ -174,6 +200,7 @@ public class SkinReferences
 
 public enum Rarity
 {
+    Bonus,
     Common,
     Epic,
     Legendary

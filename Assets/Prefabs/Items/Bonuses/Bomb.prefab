@@ -29,9 +29,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -88,17 +88,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c5b7eea6dec5f489be17dc41c51e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
-  <IconArt>k__BackingField: {fileID: 21300000, guid: 6358f899b2eba2e488daa8e0ca0bd2a7, type: 3}
+  <LangName>k__BackingField:
+    <TranslateTexts>k__BackingField: []
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 7febe664a29324f41a93048fa1093620, type: 3}
+  <Shadowed>k__BackingField: {fileID: 0}
+  <Color>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  _smallIcon: {fileID: 21300000, guid: 7febe664a29324f41a93048fa1093620, type: 3}
+  <FullScreenIcon>k__BackingField: {fileID: 21300000, guid: 6358f899b2eba2e488daa8e0ca0bd2a7, type: 3}
   <Light>k__BackingField: {fileID: 21300000, guid: 02582a49bec57d64e96a85adc126d879, type: 3}
-  <Headline>k__BackingField: {fileID: 21300000, guid: a7454dd415d87314abd8e34d175a5794, type: 3}
-  <Description>k__BackingField: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 1 \u0435\u0434.
-    \u0443\u0440\u043E\u043D\u0430. \u041D\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442
-    \u043D\u0430 \u043D\u0435\u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u0431\u043E\u0441\u0441\u043E\u0432,
-    \u043D\u043E \u043C\u043E\u0436\u0435\u0442 \u043A\u043E\u043D\u0442\u0443\u0437\u0438\u0442\u044C
-    \u043D\u0430 5 \u0441\u0435\u043A\u0443\u043D\u0434. \u041C\u043E\u0436\u043D\u043E
-    \u0432\u0437\u044F\u0442\u044C \u043D\u0435 \u0431\u043E\u043B\u0435\u0435 5
-    \u0448\u0442., \u043D\u0435 \u0447\u0430\u0449\u0435  1 \u0440\u0430\u0437\u0430
-    \u0432 10 \u0441\u0435\u043A. "
+  <LangDescription>k__BackingField:
+    <TranslateTexts>k__BackingField:
+    - 'Deals 1 unit of damage. Doesn''t work on some bosses, but can stun for 5 seconds.
+      You can take no more than 5 pieces, not more than once every 10 seconds. '
+    - "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 1 \u0435\u0434. \u0443\u0440\u043E\u043D\u0430.
+      \u041D\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442 \u043D\u0430
+      \u043D\u0435\u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u0431\u043E\u0441\u0441\u043E\u0432,
+      \u043D\u043E \u043C\u043E\u0436\u0435\u0442 \u043A\u043E\u043D\u0442\u0443\u0437\u0438\u0442\u044C
+      \u043D\u0430 5 \u0441\u0435\u043A\u0443\u043D\u0434. \u041C\u043E\u0436\u043D\u043E
+      \u0432\u0437\u044F\u0442\u044C \u043D\u0435 \u0431\u043E\u043B\u0435\u0435
+      5 \u0448\u0442., \u043D\u0435 \u0447\u0430\u0449\u0435  1 \u0440\u0430\u0437\u0430
+      \u0432 10 \u0441\u0435\u043A. "
+    - "1 birim hasar verir. Baz\u0131 bosslarda i\u015Fe yaramaz, ancak 5 saniye
+      boyunca sersemletebilir. Her 10 saniyede bir kez olmak \xFCzere en fazla 5
+      par\xE7a alabilirsiniz. "
+  <LangHeadline>k__BackingField:
+    <Text>k__BackingField:
+      <TranslateTexts>k__BackingField:
+      - Bomb
+      - "\u0411\u043E\u043C\u0431\u0430"
+      - Bomba
+    <Preset>k__BackingField: {fileID: 2100000, guid: d2b2f16943f322f4abeb98da8cfd7aef, type: 2}
+    <Color>k__BackingField: {r: 0.95686275, g: 0.6117647, b: 0.9607843, a: 1}
   <MaxToAdd>k__BackingField: 5
   <CoolDown>k__BackingField: 10
+  Used:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6045859677810756825, guid: 1a66bdc5aa54fa744919283449dc3889, type: 3}
+        m_TargetAssemblyTypeName: Achievement, Assembly-CSharp
+        m_MethodName: CheckCompletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

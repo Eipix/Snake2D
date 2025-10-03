@@ -4,18 +4,21 @@ using DG.Tweening;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private EnemyPool _enemyPool;
     [SerializeField] private SpriteRenderer _borders;
     [SerializeField] private WaveChanger _arena;
 
     private System.Random _rand = new System.Random();
     private List<Enemy> _activeEnemys = new List<Enemy>();
+
+    private LevelData _data;
     public int Count => _activeEnemys.Count;
+
+    private void Awake() => _data = SaveSerial.Instance.Data;
 
     private void Start()
     {
-        if (_saveSerial.ArenaMode)
+        if (SaveSerial.Instance.Mode == LevelMode.Arena)
             _arena.gameObject.SetActive(true);
         else
             SpawnToTheLimit();
@@ -23,12 +26,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnToTheLimit()
     {
-        if (_saveSerial.Data.Bosses.Length > 0)
-            SpawnEnemy(_saveSerial.Data.Bosses[0].EnemyPrefab);
+        if (_data.Bosses.Length > 0)
+            SpawnEnemy(_data.Bosses[0].EnemyPrefab);
 
         while (CanSpawn())
         {
-            if (_saveSerial.Data.EnemyData.Length < 1)
+            if (_data.EnemyData.Length < 1)
                 break;
 
             SpawnEnemyByChances();
@@ -43,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
             _enemyPool.Put(thisEnemy);
             _activeEnemys.Remove(thisEnemy);
         });
-        sequence.AppendInterval(_saveSerial.Data.DelayBeforeEnemySpawn);
+        sequence.AppendInterval(_data.DelayBeforeEnemySpawn);
         sequence.AppendCallback(() => SpawnEnemyByChances());
     }
 
@@ -57,14 +60,14 @@ public class EnemySpawner : MonoBehaviour
         _activeEnemys.Add(enemy);
     }
 
-    public bool CanSpawn() => _activeEnemys.Count < _saveSerial.Data.MaxEnemyCount;
+    public bool CanSpawn() => _activeEnemys.Count < _data.MaxEnemyCount;
 
     public IEnumerable<Enemy> GetActiveEnemies() => _activeEnemys;
 
     private void SpawnEnemyByChances()
     {
         Dictionary<Enemy, int> enemyChances = new Dictionary<Enemy, int>();
-        foreach (var data in _saveSerial.Data.EnemyData)
+        foreach (var data in _data.EnemyData)
             enemyChances.Add(data.EnemyPrefab, data.SpawnChances);
 
         var enemy = _rand.Element(enemyChances);

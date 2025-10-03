@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f17ff19599c1fdf40bcfab59c7eeeabe, type: 3}
+  m_Name: Bomber skill
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: TranslatedTexts
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Language+Languages, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Language+Languages,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 1
+      Data: skill - "explosion". When activated, the player has the opportunity to
+        choose the point of the bomb drop, when specifying the point, the bomb is
+        dropped on the map exploding within a radius of 9 cells, removes 1 unit of
+        health. Concusses the boss for 2 sec. 25 sec recharge. Upgrade gives +2%
+        chance to deal double damage.
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 1
+      Data: "\u043D\u0430\u0432\u044B\u043A -\"\u0432\u0437\u0440\u044B\u0432\".
+        \u041F\u0440\u0438 \u0430\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u0438,
+        \u0443 \u0438\u0433\u0440\u043E\u043A\u0430 \u0435\u0441\u0442\u044C \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C
+        \u0432\u044B\u0431\u0440\u0430\u0442\u044C \u0442\u043E\u0447\u043A\u0443
+        \u0441\u0431\u0440\u043E\u0441\u0430 \u0431\u043E\u043C\u0431\u044B, \u043F\u0440\u0438
+        \u0443\u043A\u0430\u0437\u0430\u043D\u0438\u0438 \u0442\u043E\u0447\u043A\u0438,
+        \u0431\u043E\u043C\u0431\u0430 \u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 \u043A\u0430\u0440\u0442\u0443 \u0432\u0437\u0440\u044B\u0432\u0430\u044F\u0441\u044C
+        \u0432 \u0440\u0430\u0434\u0438\u0443\u0441\u0435 9 \u043A\u043B\u0435\u0442\u043E\u043A,
+        \u0441\u043D\u0438\u043C\u0430\u0435\u0442 1 \u0435\u0434. \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F.
+        \u041A\u043E\u043D\u0442\u0443\u0437\u0438\u0442 \u0431\u043E\u0441\u0441\u0430
+        \u043D\u0430 2 \u0441\u0435\u043A. \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430
+        25 \u0441\u0435\u043A. \u0430\u043F\u0433\u0440\u0435\u0439\u0434 \u0434\u0430\u0451\u0442
+        +2% \u0448\u0430\u043D\u0441\u0430 \u043D\u0430\u043D\u0435\u0441\u0442\u0438
+        \u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u0443\u0440\u043E\u043D."
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 1
+      Data: "beceri - \"patlama\". Etkinle\u015Ftirildi\u011Finde, oyuncu bomban\u0131n
+        d\xFC\u015Fece\u011Fi noktay\u0131 se\xE7me \u015Fans\u0131na sahiptir, noktay\u0131
+        belirlerken, bomba 9 h\xFCcrelik bir yar\u0131\xE7ap i\xE7inde patlayarak
+        haritaya d\xFC\u015Fer, 1 birim sa\u011Fl\u0131k kald\u0131r\u0131r. Patronu
+        2 saniye boyunca sarsar. 25 saniye \u015Farj olur. Y\xFCkseltme, \xE7ift
+        hasar vermek i\xE7in +%2 \u015Fans verir."
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

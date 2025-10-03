@@ -5,10 +5,10 @@ using DG.Tweening;
 
 public class UIApple : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
-    private Wallet _wallet;
-    private MainMenuButtons _menu;
     private UIAppleSpawner _spawner;
     private Sequence _bounceEffect;
+
+    public const int AppleReward = 1;
 
     private void OnEnable()
     {
@@ -25,21 +25,21 @@ public class UIApple : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             .OnStart(() => transform.DOPunchScale(Vector2.one * 0.5f, 0.3f, vibrato: 1))
             .Append(transform.DOPunchScale(Vector2.one * 0.3f, 0.3f, vibrato: 1).SetLoops(2))
             .AppendInterval(3f)
-            .SetLoops(-1);
+            .SetLoops(3);
 
         StartCoroutine(Disabling());
     }
 
-    public void Init(Wallet wallet, MainMenuButtons menu, UIAppleSpawner spawner)
+    public void Init(UIAppleSpawner spawner)
     {
-        _wallet = wallet;
-        _menu = menu;
         _spawner = spawner;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        _wallet.TryGetRedApple(1, _menu);
+        Wallet.Instance.TryGetRedApple(AppleReward);
+        LeaderBoard.Instance.Add(AppleReward);
+        SaveSerial.Instance.SaveGame();
         _bounceEffect.Kill();
     }
 

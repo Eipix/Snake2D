@@ -7,80 +7,63 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
 {
-    [Header("References")]
-    [SerializeField] private Health _snakeHealth;
-    [SerializeField] private Head _snakeHead;
-    [SerializeField] private GenerationArea _area;
-    [field: SerializeField] protected EnemySpawner Spawner { get; private set; }
-    [field:SerializeField] protected ConditionsForLevel Conditions { get; private set; }
-
-    [field:Header("Characteristics")]
-    [field:SerializeField] public int Health { get; set; }
-    [field: SerializeField] public int Damage { get; set; }
-    [field:SerializeField] public Rank Tier { get; set; }
-    [SerializeField] private float _rotationSpeed;
-
-    [Header("Effects")]
+    [field: SerializeField] public SpriteRenderer Renderer { get; private set; }
     [SerializeField] private ParticleSystem _freezing;
 
-    public Animator Animator { get; private set; }
-    public NavMeshAgent Agent => _agent;
-    public BehaviourType Behaviour { get; protected set; }
-    [field: SerializeField] public int IsMoveBlock { get; set; }
-    public Transform Target { get; private set; }
+    [field: Header("Characteristics")]
+    [field: SerializeField] public int Health { get; set; }
+    [field: SerializeField] public int Damage { get; set; }
+    [field: SerializeField] public Rank Tier { get; set; }
+    [SerializeField] private float _rotationSpeed;
 
     private List<Transform> _targets = new List<Transform>();
     private List<Type> _exceptions = new List<Type>();
 
     private Rigidbody2D _body;
-    private NavMeshAgent _agent;
     private Component _exception;
+
+    public EnemyReferences References { get; private set; }
+    public Animator Animator { get; private set; }
+    public NavMeshAgent Agent { get; private set; }
+    public BehaviourType Behaviour { get; protected set; }
+    public Transform Target { get; private set; }
 
     private int _defaultHealth;
     private float _timer = 0f;
+    public int IsMoveBlock { get; set; }
 
     protected virtual void Start()
     {
-        Animator = GetComponent<Animator>();
         _body = GetComponent<Rigidbody2D>();
-        _agent = GetComponent<NavMeshAgent>();
+        Animator = GetComponent<Animator>();
+        Agent = GetComponent<NavMeshAgent>();
 
-        _agent.updateRotation = false;
-        _agent.updateUpAxis = false;
-
+        Agent.updateRotation = false;
+        Agent.updateUpAxis = false;
         _defaultHealth = Health;
     }
 
-    public void Init(EnemyReferences references)
-    {
-        _snakeHealth = references.SnakeHealth;
-        _snakeHead = references.SnakeHead;
-        _area = references.Area;
-        Spawner = references.Spawner;
-        Conditions = references.Conditions;
-    }
+    public void Init(EnemyReferences references) => References = references;
 
     protected virtual void Update()
     {
         if (Convert.ToBoolean(IsMoveBlock))
         {
-            _agent.SetDestination(transform.position);
+            Agent.SetDestination(transform.position);
             return;
         }
 
-        if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationController.Move) ||
-            Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationController.Rotten))
-        {
-            FindClosest();
-            LookAtTarget(Time.deltaTime * _rotationSpeed);
-            _agent.SetDestination(Target.position);
-            _targets.Clear();
+        FindClosest();
+        LookAtTarget(Time.deltaTime * _rotationSpeed);
+        Agent.SetDestination(Target.position);
+        _targets.Clear();
 
-            if (_body.IsSleeping())
-                _body.WakeUp();
-        }
+        if (_body.IsSleeping())
+            _body.WakeUp();
+
         _timer += Time.deltaTime;
     }
 
@@ -114,17 +97,17 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
 
     public void LookAtTarget(float time = 1)
     {
-        
-        Vector2 direction = _agent.steeringTarget - transform.position;
+        Vector2 direction = (Agent.steeringTarget - transform.position).normalized;
         float signedAngle = Vector2.SignedAngle(Vector2.up, direction);
-        Quaternion rotation = Quaternion.Euler(0, 0, signedAngle);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, time);
+        var rotation = Quaternion.Euler(0, 0, signedAngle);
+        var result = Quaternion.Lerp(transform.rotation, rotation, time);
+        transform.rotation = result;
     }
 
     private void GetTargets()
     {
-        var cheese = _area.GetComponentInChildren<CheeseEffect>();
-        List<Apple> apples = _area.GetApples().ToList();
+        var cheese = References.Area.GetComponentInChildren<CheeseEffect>();
+        List<Apple> apples = References.Area.GetApples().ToList();
 
         if (cheese != null)
         {
@@ -138,7 +121,7 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
         {
             _targets.Add(target.transform);
         }
-        _targets.Add(_snakeHead.transform);
+        _targets.Add(References.SnakeHead.transform);
         return;
     }
 
@@ -184,7 +167,7 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
     {
         _exceptions.AddRange(exceptions);
     }
-    
+
     public virtual void TakeDamage(int damage = 1)
     {
         Animator.SetTrigger(AnimationController.Damage);
@@ -195,10 +178,17 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
     public virtual void CheckDeath()
     {
         if (Health < 1)
+        {
             Animator.SetTrigger(AnimationController.Death);
+            OnDeath();
+        }
         else
+        {
             Animator.SetTrigger(AnimationController.Move);
+        }
     }
+
+    public virtual void OnDeath() { }
 
     public void Revive()
     {
@@ -213,7 +203,7 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
             Animator.SetTrigger(AnimationController.Revive);
     }
 
-    public Vector2 GetSnakePosition() => _snakeHead.transform.position;
+    public Vector2 GetSnakePosition() => References.SnakeHead.transform.position;
 
     public virtual Vector2 GetSpawnPosition(SpriteRenderer borders, float offset = 1.5f)
     {
@@ -246,9 +236,15 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
             Animator.ResetTrigger(AnimationController.Attack);
         }
     }
-    public virtual void Poisoning() => Animator.SetTrigger(AnimationController.Rotten);
+    public virtual void Poisoning()
+    {
+        Animator.SetTrigger(AnimationController.Rotten);
+        OnPoisoning();
+    }
 
-    
+    protected virtual void OnPoisoning() { }
+    protected virtual void OnFreeze() { }
+
     //event in "Rotten" Animation
     public void RemoveHealth(int damage = 1)
     {
@@ -257,25 +253,28 @@ public abstract class Enemy : MonoBehaviour, IHealth, IDamageable
     }
 
     //event in "Death" animation
-    public void Death() =>  Spawner.OnDeath(this);
+    public void Death() => References.Spawner.OnDeath(this);
 
     //event in "Attack" animation
-    public void Attack() => _snakeHealth.Lost(Damage);
+    public void Attack() => References.SnakeHealth.Lost(Damage);
 
-    public void SkillAttack(int damage) => _snakeHealth.Lost(damage);
+    public void SkillAttack(int damage) => References.SnakeHealth.Lost(damage);
 
     // events in "Freeze" animation
     public void FreezingEnable()
     {
+        Animator.SetBool(AnimationController.Freezing, true);
         _freezing.gameObject.SetActive(true);
         _freezing.Play();
+        OnFreeze();
     }
     public void FreezingDisable()
     {
+        Animator.SetBool(AnimationController.Freezing, false);
         _freezing.Stop();
         _freezing.gameObject.SetActive(false);
     }
-    
+
     public static class AnimationController
     {
         public const string Move = "Move";
@@ -307,6 +306,8 @@ public class EnemyReferences
     [field: SerializeField] public Health SnakeHealth { get; private set; }
     [field: SerializeField] public Head SnakeHead { get; private set; }
     [field: SerializeField] public GenerationArea Area { get; private set; }
+    [field: SerializeField] public CountdownToStart CountdownToStart { get; private set; }
     [field: SerializeField] public ConditionsForLevel Conditions { get; private set; }
     [field: SerializeField] public EnemySpawner Spawner { get; private set; }
+    [field: SerializeField] public EnemyPool Pool { get; private set; }
 }

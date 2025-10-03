@@ -1,11 +1,13 @@
 
 
-public class RedApple : Apple
+
+public class RedApple : Apple, IProduct
 {
-    public override void Add(int count = 1)
+    public override void Add(int count = 1, bool updateBalance = true)
     {
-        (int redApple, int goldApple) = SaveSerial.LoadApple();
-        redApple += count;
-        SaveSerial.SaveApple(redApple, goldApple);
+        Wallet.Instance.TryGetRedApple(count, updateBalance);
     }
+
+    public void Receive(int count) => Wallet.Instance.TryGetRedApple(count);
+
 }

@@ -8,32 +8,35 @@ public class SkinLoader : MonoBehaviour
     [Header("References")]
     [SerializeField] private SkinReferences _references;
     [SerializeField] private PoolObjects _pool;
-    [SerializeField] private Skin[] _skinPrefabs;
-    [SerializeField] private SaveSerial _saveSerial;
 
     [Header("Sprites")]
     [SerializeField] private SpriteRenderer[] currentSkinParts;
     [SerializeField] private SpriteRenderer _bodyDefaultInScene;
     [SerializeField] private Image _avatar;
 
-    public Skin[] Prefabs => _skinPrefabs;
+    private Skin[] _prefabs;
     public Skin CurrentSkin { get; private set; }
 
-    public bool IsSkinEpic { get; private set; }
+    private void Awake() => _prefabs = SaveSerial.Instance.SkinPrefabs;
 
     private void Start()
     {
         SetSkin();
         CurrentSkin = GetCurrentSkin();
         CurrentSkin.Init(_references);
-        IsSkinEpic = CurrentSkin.Rareness == Rarity.Epic;
+        Debug.Log($"Skin type: {SaveSerial.Instance.LoadCurrentSkinType()}");
     }
 
     private Skin GetCurrentSkin()
     {
-        Skin currentSkin = _skinPrefabs
-            .Where(prefab => prefab.GetType().ToString() == _saveSerial.LoadCurrentSkinType())
-            .First();
+        Skin currentSkin = _prefabs
+            .Where(prefab => prefab.GetType().ToString() == SaveSerial.Instance.LoadCurrentSkinType())
+            .FirstOrDefault();
+
+        if (currentSkin == null)
+            currentSkin = _prefabs
+                .Where(skin => skin.GetType() == typeof(Pagko))
+                .FirstOrDefault();
 
         var skinInScene = Instantiate(currentSkin.gameObject, transform);
         skinInScene.GetComponent<ClickBehaviour>().enabled = false;
@@ -44,11 +47,12 @@ public class SkinLoader : MonoBehaviour
 
     private void SetSkin()
     {
-        foreach (var skin in _skinPrefabs)
+        foreach (var skin in _prefabs)
         {
-            if (_saveSerial.LoadCurrentSkinType() == skin.GetType().ToString())
+            if (SaveSerial.Instance.LoadCurrentSkinType() == skin.GetType().ToString())
             {
                 skin.LoadSkin(ref currentSkinParts, ref _avatar, ref _bodyDefaultInScene);
+                break;
             }
         }
         List<Body> bodysInPool = _pool.GetBodysByType(currentSkinParts[1].GetComponent<Body>());

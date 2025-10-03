@@ -8,12 +8,17 @@ public class TabSwitcher : MonoBehaviour
     [SerializeField] private Sprite _tabPressed;
     [SerializeField] private Sprite _tabNotPressed;
 
+    private void OnEnable()
+    {
+        SwitchTab(Tabs.Bonuses);
+    }
+
     public void OnTabClick(int tabIndex)
     {
         SwitchTab((Tabs)tabIndex);        
     }
 
-    private void SwitchTab(Tabs tab)
+    public void SwitchTab(Tabs tab)
     {
         DisableAllTabs();
         _tabs[(int)tab].SetActive(true);

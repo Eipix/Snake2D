@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private SnakeMovement _snake;
     [SerializeField] private Effects _effects;
     [SerializeField] private ParametrAnimation _parametr;
@@ -15,8 +15,11 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject _prefabHealth;
     [SerializeField] private GameObject _prefabEmptyHealth;
 
+    public UnityEvent Damaged;
     public UnityAction<Type> SkillActivated;
 
+    private RectTransform _rectTransform;
+    private GridLayoutGroup _gridLayoutGroup;
     private OnPauseOrWinOrDefeatPanelShow _OnPauseOrWinOrDefeatPanelShow;
     private Image _firstHealth;
     private Sequence _blink;
@@ -24,7 +27,7 @@ public class Health : MonoBehaviour
     public int TotalLostHealthCount { get; private set; }
     public int CurrentHealths { get; private set; }
     
-    private int _healthCount = 3;
+    private int _healthCount;
     private System.Random rand = new System.Random();
     private int _luck = 0;
 
@@ -32,11 +35,19 @@ public class Health : MonoBehaviour
 
     private void OnDisable() => SkillActivated -= _parametr.IconFlyAway;
 
+    private void Awake()
+    {
+        _rectTransform = transform as RectTransform;
+        _gridLayoutGroup = GetComponent<GridLayoutGroup>();
+    }
+
     private void Start()
     {
         _OnPauseOrWinOrDefeatPanelShow = GetComponentInParent<OnPauseOrWinOrDefeatPanelShow>();
-        _luck = _saveSerial.LoadLuck();
-        _healthCount = _saveSerial.LoadHealth();
+
+        _luck = SaveSerial.Instance.Load<int>(SaveSerial.JsonPaths.SavedLuckParam);
+        _healthCount = SaveSerial.Instance.Load<int>(SaveSerial.JsonPaths.SavedHealthParam, 3);
+
         CurrentHealths = _healthCount;
         UpdateValue();
     }
@@ -50,20 +61,19 @@ public class Health : MonoBehaviour
 
         for (int i = 0; i < healthsLost; i++)
         {
-            var position = new Vector2(transform.position.x - (0.65f * count), transform.position.y);
-            Instantiate(_prefabEmptyHealth, position, Quaternion.identity, transform);
+            Instantiate(_prefabEmptyHealth, _rectTransform);
             count++;   
         }
 
         for (int i = 0; i < CurrentHealths; i++)
         {
-            var position = new Vector2(transform.position.x - (0.65f * count), transform.position.y);
-            var health = Instantiate(_prefabHealth, position, Quaternion.identity, transform);
+            var health = Instantiate(_prefabHealth, _rectTransform);
             _firstHealth = i == 0 ? health.GetComponent<Image>() : _firstHealth;
             count++;
         }
+        _gridLayoutGroup.SetLayoutVertical();
     }
-    
+
     public void Recovery()
     {
         if (CurrentHealths < _healthCount)
@@ -78,11 +88,13 @@ public class Health : MonoBehaviour
         bool isLuck = rand.withProbability(_luck);
         if (!isLuck && _effects.IsInvincible == false)
         {
+            damage = Math.Clamp(damage, 0, CurrentHealths);
             TotalLostHealthCount += damage;
             CurrentHealths -= damage;
 
             StartCoroutine(HeartBlink());
             StartCoroutine(_snake.HitAnimation());
+            Damaged?.Invoke();
         }
 
         if (isLuck)
@@ -108,8 +120,7 @@ public class Health : MonoBehaviour
     private void Clear()
     {
         var healths = GetComponentsInChildren<Image>();
-        foreach (var health in healths)
-            health.gameObject.SetActive(false);
+        healths.ForEach(health => health.gameObject.SetActive(false));
     }
 
     private void CheckDefeate()

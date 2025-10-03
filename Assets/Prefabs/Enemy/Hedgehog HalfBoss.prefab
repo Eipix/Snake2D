@@ -30,13 +30,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3907877063977347614}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8478107352825870804}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &990791005553434712
 SpriteRenderer:
@@ -49,6 +50,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -109,6 +111,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &9155670740676787550
 Rigidbody2D:
   serializedVersion: 4
@@ -126,6 +129,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -140,6 +149,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -163,6 +191,7 @@ PolygonCollider2D:
       - {x: -1.6322193, y: 0.075267196}
       - {x: -1.0487556, y: -0.88828504}
       - {x: -0.07080573, y: -1.1018121}
+  m_UseDelaunayMesh: 0
 --- !u!60 &4635080595359563933
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -173,6 +202,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -197,6 +245,7 @@ PolygonCollider2D:
       - {x: 0.46081686, y: 0.14276817}
       - {x: 0.22309685, y: 0.46296805}
       - {x: -0.0792169, y: 0.5417723}
+  m_UseDelaunayMesh: 0
 --- !u!195 &200514621964195226
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -231,22 +280,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 976a94b0b24be634fb298765a894a063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _snakeHealth: {fileID: 0}
-  _snakeHead: {fileID: 0}
-  _area: {fileID: 0}
-  <Spawner>k__BackingField: {fileID: 0}
-  <Conditions>k__BackingField: {fileID: 0}
+  <Renderer>k__BackingField: {fileID: 990791005553434712}
+  _freezing: {fileID: 2341137691825312828}
   <Health>k__BackingField: 9
   <Damage>k__BackingField: 2
   <Tier>k__BackingField: 1
   _rotationSpeed: 6
-  _freezing: {fileID: 2341137691825312828}
-  <IsMoveBlock>k__BackingField: 0
+  HedgehogDestroyed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6086276725707541415, guid: ff9584888fed8234f8ed5482cfdaa8e1, type: 3}
+        m_TargetAssemblyTypeName: Achievement, Assembly-CSharp
+        m_MethodName: CheckCompletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1035872882761676600
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3453154704159486682}
     m_Modifications:
     - target: {fileID: 682366590838128119, guid: f3e4d71dc68a8254186aa7f9a46eabe4, type: 3}
@@ -326,14 +386,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3e4d71dc68a8254186aa7f9a46eabe4, type: 3}
---- !u!4 &8478107352825870804 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8919486066380508908, guid: f3e4d71dc68a8254186aa7f9a46eabe4, type: 3}
-  m_PrefabInstance: {fileID: 1035872882761676600}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &2341137691825312828 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3322896443076682500, guid: f3e4d71dc68a8254186aa7f9a46eabe4, type: 3}
+  m_PrefabInstance: {fileID: 1035872882761676600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8478107352825870804 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8919486066380508908, guid: f3e4d71dc68a8254186aa7f9a46eabe4, type: 3}
   m_PrefabInstance: {fileID: 1035872882761676600}
   m_PrefabAsset: {fileID: 0}

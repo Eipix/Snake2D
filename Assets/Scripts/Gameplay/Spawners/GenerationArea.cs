@@ -8,8 +8,6 @@ public class GenerationArea : MonoBehaviour
     [SerializeField] private ApplePool _applePool;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private NavMeshSurface[] _surfaces;
-    [SerializeField] private CountdownToStart _countdown;
-    [SerializeField] private SaveSerial _saveSerial;
 
     [SerializeField] private RectTransform _redApplePointBar;
     [SerializeField] private RectTransform _goldApplepointBar;
@@ -19,8 +17,10 @@ public class GenerationArea : MonoBehaviour
 
     public Apple[] ApplePrefabs => _typeOfApple;
 
-    private List<Apple> _activeApples = new List<Apple>();
+    private List<Apple> _applesOnMap = new List<Apple>();
     private List<int> _rotations = new List<int> { 0, 90, 180, 270 };
+
+    private LevelData _data;
 
     public int GoldAppleChance => _goldAppleChance;
     public int RottenAppleChance { get; private set; }
@@ -33,6 +33,8 @@ public class GenerationArea : MonoBehaviour
     private int _goldAppleChance = 2;
     private int[] _appleChances = new int[100];
     private int[] _stoneChances = new int[10];
+
+    private void Awake() => _data = SaveSerial.Instance.Data;
 
     private void Start()
     {
@@ -48,35 +50,38 @@ public class GenerationArea : MonoBehaviour
         {
             surface.BuildNavMeshAsync();
         }
-
-        StartCoroutine(_countdown.CountdownStart());
     }
 
     public void AppleGeneration()
     {
-        if (_activeApples.Count >= _saveSerial.Data.MaxAppleCount)
+        if (_applesOnMap.Count >= _data.MaxAppleCount)
         {
-            Debug.LogWarning("Apples Count is Max");
+            Debug.LogWarning($"Apples Count is Max: on map {_applesOnMap.Count} >= max {_data.MaxAppleCount}");
             return;
         }
 
         int l = 0;
-        for (int i = _activeApples.Count; i < _saveSerial.Data.MaxAppleCount;)
+        for (int i = _applesOnMap.Count; i < _data.MaxAppleCount;)
         {
             var spawnPoint = new Vector2(-7.7f + (MoveStep * Random.Range(0, 22)), -3.5f + (MoveStep * Random.Range(0, 11)));
-            var hit = Physics2D.Raycast(spawnPoint, spawnPoint, 0.05f);
+            LayerMask excludeMask = ~LayerMask.GetMask(LayerMask.LayerToName(9));
+            var hit = Physics2D.Raycast(spawnPoint, spawnPoint, 0.05f, excludeMask.value);
 
             if (hit.collider == null ||
                (!hit.collider.TryGetComponent(out Apple apple) &&
                 !hit.collider.TryGetComponent(out Stone stone) &&
                 !hit.collider.TryGetComponent(out Snake snake) &&
-                !hit.collider.TryGetComponent(out Enemy enemy)))
+                !hit.collider.TryGetComponent(out Enemy enemy) &&
+                !hit.collider.TryGetComponent(out Cherry cherry)))
             {
-                //if (hit.collider != null) Debug.LogWarning(_typeOfApple[randomIndex].name + ":" + hit.collider.name);
-                //Debug.DrawRay(spawnPoint, spawnPoint, Color.red, 5f, true);
                 int randomIndex = _appleChances[Random.Range(0, 100)];
+
+                //Debug.DrawRay(spawnPoint, spawnPoint, Color.red, 5f, true);
+                //if (hit.collider != null) 
+                //    Debug.LogWarning(_typeOfApple[randomIndex].name + ":" + hit.collider.name);
+
                 var newApple = _applePool.Take(_typeOfApple[randomIndex].GetType(), transform, spawnPoint, Quaternion.identity);
-                _activeApples.Add(newApple);
+                _applesOnMap.Add(newApple);
                 i++;
             }
 
@@ -184,10 +189,10 @@ public class GenerationArea : MonoBehaviour
 
     private void SetChancesPerLevel()
     {
-        RottenAppleChance = _saveSerial.Data.RottenAppleChance;
+        RottenAppleChance = _data.RottenAppleChance;
         BigStoneChance = 2;
         MiddleStoneChance = 4;
-        StoneCount = _saveSerial.Data.MaxStoneCount;
+        StoneCount = _data.MaxStoneCount;
     }
 
     public void ChangeGoldAppleChance(int chance)
@@ -199,7 +204,7 @@ public class GenerationArea : MonoBehaviour
     public void SpawnGoldApple(Vector2 position)
     {  
         var apple = _applePool.Take(_typeOfApple[1].GetType(), transform, position, Quaternion.identity);
-        _activeApples.Add(apple);
+        _applesOnMap.Add(apple);
     }
 
     public void AddGoldApple() => _applePool.AddGoldApple();
@@ -227,8 +232,8 @@ public class GenerationArea : MonoBehaviour
     public void RemoveApple(Apple apple)
     {
         _applePool.Put(apple);
-        _activeApples.Remove(apple);
+        _applesOnMap.Remove(apple);
     }
 
-    public IEnumerable<Apple> GetApples() => _activeApples;
+    public IEnumerable<Apple> GetApples() => _applesOnMap;
 }

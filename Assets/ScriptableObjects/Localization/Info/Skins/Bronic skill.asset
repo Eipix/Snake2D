@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f17ff19599c1fdf40bcfab59c7eeeabe, type: 3}
+  m_Name: Bronic skill
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: TranslatedTexts
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Language+Languages, Assembly-CSharp],[System.String,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Language+Languages,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 1
+      Data: skill - "equanimity". When activated, gets invulnerability for 4 sec.
+        recharge 7 sec. upgrade gives +1 sec. to invulnerability.
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 1
+      Data: "\u043D\u0430\u0432\u044B\u043A - \"\u043D\u0435\u0432\u043E\u0437\u043C\u0443\u0442\u0438\u043C\u043E\u0441\u0442\u044C\".
+        \u041F\u0440\u0438 \u0430\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u0438
+        \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+        \u043D\u0430 4 \u0441\u0435\u043A.. \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430
+        7 \u0441\u0435\u043A. \u0430\u043F\u0433\u0440\u0435\u0439\u0434 \u0434\u0430\u0451\u0442
+        +1 \u0441\u0435\u043A. \u043A \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u0438."
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 1
+      Data: "beceri - \"equanimity\". Etkinle\u015Ftirildi\u011Finde, 4 saniye boyunca
+        zarar g\xF6rmezlik kazan\u0131r. 7 saniye \u015Farj edin. y\xFCkseltme, zarar
+        g\xF6rmezli\u011Fe +1 saniye verir."
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

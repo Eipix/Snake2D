@@ -8,7 +8,7 @@ using DG.Tweening;
 public class RewardPopup : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
     [SerializeField] private TextMeshProUGUI _description;
-    [SerializeField] private Image _title;
+    [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private Image _reward;
     [SerializeField] private Image _popup;
     [SerializeField] private Image _outLight;
@@ -52,9 +52,9 @@ public class RewardPopup : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     public void ChangeValues(Sprite sprite, string description, Color color)
     {
         _description.text = description;
+        _description.color = color;
         _reward.sprite = sprite;
         _reward.SetNativeSize();
-        _description.color = color;
     }
 
     public void OnPointerUp(PointerEventData eventData)

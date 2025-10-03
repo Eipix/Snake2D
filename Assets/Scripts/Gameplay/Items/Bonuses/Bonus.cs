@@ -2,33 +2,35 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
-public abstract class Bonus : Item,IArtChanger
+public abstract class Bonus : Item, IArtChanger, IProduct
 {
-    [Header("References")]
-    [SerializeField] protected SaveSerial saveSerial;
+    [SerializeField] private Sprite _smallIcon;
 
     [field:Header("IArtChanger")]
-    [field: SerializeField] public Sprite IconArt { get; set; }
+    [field: SerializeField] public Sprite FullScreenIcon { get; set; }
     [field: SerializeField] public Sprite Light { get; set; }
-    [field: SerializeField] public Sprite Headline { get; set; }
-    [field: TextArea]
-    [field: SerializeField] public string Description { get; set; }
+    [field: SerializeField] public TranslatableString LangDescription { get; set; }
+    [field: SerializeField] public AssetText LangHeadline { get; set; }
+
 
     [field:Header("Characteristics")]
     [field:SerializeField] public int MaxToAdd { get; protected set; }
     [field:SerializeField] public int CoolDown { get; protected set; }
 
-    protected Sprite icon;
-    protected Slots slots;
-    protected Slot slot;
-    protected Effects effect;
+    public UnityEvent Used;
 
-    protected int amount;
+    public Sprite SmallIcon => _smallIcon;
+    protected Sprite icon;
+    protected Slots slots { get; set; }
+    protected Slot slot { get; set; }
+    protected Effects effect { get; set; }
+
+    public int Amount => SaveSerial.Instance.LoadBonusAmount(this);
 
     protected virtual void Start()
     {
-        amount = saveSerial.LoadBonusAmount(this);
         icon = GetComponent<Image>().sprite;
 
         if (SceneManager.GetActiveScene().name == "Level")
@@ -39,43 +41,55 @@ public abstract class Bonus : Item,IArtChanger
         }
     }
 
-    public abstract void Effect();
-
-    public int GetAmount() => amount = saveSerial.LoadBonusAmount(this);
-
-    public override void Add(int count = 1)
+    public virtual void Effect()
     {
-        GetAmount();
-        amount += count;
-        saveSerial.SaveBonusAmount(this, amount);
+        SaveSerial.Instance.Increment(1, SaveSerial.JsonPaths.SpentBonuses);
+        Used?.Invoke();
+    }
+
+    public void Receive(int count)
+    {
+        var result = Amount + count;
+        SaveSerial.Instance.SaveBonusAmount(this, result);
+    }
+
+    public override void Add(int count = 1, bool updateBalance = true)
+    {
+        var result = Amount + count;
+        SaveSerial.Instance.SaveBonusAmount(this, result);
     }
 
     public int Decrese(int count = 1)
     {
-        amount = amount >= count ? saveSerial.LoadBonusAmount(this) - count : saveSerial.LoadBonusAmount(this);
-        saveSerial.SaveBonusAmount(this, amount);
-        return amount;
+        var result = Amount >= count ? Amount - count : Amount;
+        SaveSerial.Instance.SaveBonusAmount(this, result);
+        return result;
     }
 
-    public void Spend()
+    public bool TrySpend(int count = 1)
     {
-        saveSerial.SaveBonusInSlots(this, -1);
+        SaveSerial.Instance.SaveBonusInSlots(this, -1);
         slots.UpdateBonuses();
         slot.DisableSelected();
 
-        if (saveSerial.LoadBonusInSlots().ContainsKey(GetType().ToString()))
+        if (SaveSerial.Instance.LoadBonusInSlots().ContainsKey(GetType().ToString()))
             slot.ReloadActive(true);
+
+        Debug.Log("Bonus spend save in sdk");
+#if UNITY_WEBGL && !UNITY_EDITOR
+        SaveSerial.Instance.SaveGame();
+#endif
+        return true;
     }
 
-    public void ChangeArt(ref Image art, ref Image name, ref Image light, ref TMP_Text description)
+    public void ChangeArt(Image art, Image light, TMP_Text description, TextMeshProUGUI headline)
     {
-        art.sprite = IconArt;
-        name.sprite = Headline;
+        art.sprite = FullScreenIcon;
         light.sprite = Light;
-        description.text = Description;
+        description.text = LangDescription.Translate;
         light.gameObject.SetActive(true);
+        headline.SetAssetText(LangHeadline);
         art.SetNativeSize();
-        name.SetNativeSize();
         light.SetNativeSize();
     }
 }

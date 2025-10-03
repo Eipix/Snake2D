@@ -6,15 +6,12 @@ using TMPro;
 
 public class MissionRequirements : MonoBehaviour
 {
-    [SerializeField] private RectTransform _indicator;
     [SerializeField] private Arena _arena;
     [SerializeField] private TextMeshProUGUI _requirements;
     [SerializeField] private Image[] _missionStars;
     [SerializeField] private Image _skull;
-    [SerializeField] private SaveSerial _saveSerial;
-    [SerializeField] private List<Level> _levels;
 
-    [SerializeField] private GameObject _missionPanel;
+    [SerializeField] private PunchablePopup _missionPanel;
     [SerializeField] private GameObject _blackout;
 
     [Header("Sprites")]
@@ -23,77 +20,67 @@ public class MissionRequirements : MonoBehaviour
     [SerializeField] private Sprite _smallStar;
     [SerializeField] private Sprite _bossStar;
 
+    public Arena Arena => _arena;
+    public Level LastUnlock => SaveSerial.Instance.Levels.FirstOrDefault(level => level.IsCompleted == false && level.IsUnlock);
+
     public void Start()
     {
-        Level[] levels = _levels.ToArray();
+        Level[] levels = SaveSerial.Instance.Levels;
         LevelData[] datas = new LevelData[levels.Length];
         for (int i = 0; i < levels.Length; i++)
         {
             datas[i] = levels[i].Data;
         }
-        _saveSerial.CacheAllLevelsData(datas);
+        SaveSerial.Instance.Datas = datas;
 
         RequirementMissionPopupDisable();
     }
 
-    public void OnMissionClick(int levelNumber)
+    public void OnMissionClick(int levelIndex)
     {
         RequirementMissionPopupEnable();
 
-        if(levelNumber == -1) SetArenaData();
-        else SetLevelData(levelNumber);
+        if(levelIndex < 0) SetArenaData();
+        else SetLevelData(levelIndex);
     }
 
-    private void SetLevelData(int levelNumber)
+    private void SetLevelData(int levelIndex)
     {
-        _saveSerial.ArenaMode = false;
+        SaveSerial.Instance.Mode = LevelMode.Level;
         _skull.gameObject.SetActive(false);
         for (int i = 0; i < _missionStars.Length; i++)
         {
             _missionStars[i].gameObject.SetActive(true);
-            _missionStars[i].sprite = (bool)_saveSerial.LoadStars(levelNumber - 1).GetValue(i)
+            _missionStars[i].sprite = SaveSerial.Instance.Load(levelIndex, SaveSerial.JsonPaths.LevelStars, new bool[3])[i]
                 ? _bigStar
                 : _bigVoidStar;
         }
-        _requirements.text = _levels[levelNumber - 1].GetConditionText();
-        _saveSerial.Data = _levels[levelNumber - 1].Data;
+        _requirements.text = SaveSerial.Instance.Levels[levelIndex].GetConditionText();
+        SaveSerial.Instance.Data = SaveSerial.Instance.Levels[levelIndex].Data;
     }
 
     private void SetArenaData()
     {
-        _saveSerial.ArenaMode = true;
+        SaveSerial.Instance.Mode = LevelMode.Arena;
         _skull.gameObject.SetActive(true);
 
         for (int i = 0; i < _missionStars.Length; i++)
             _missionStars[i].gameObject.SetActive(false);
 
-        _requirements.text = _arena.GetConditionText();
-        _saveSerial.Waves = _arena.Waves;
-        _saveSerial.Data = _arena.Waves[0];
+        _requirements.text = _arena.Description;
+        SaveSerial.Instance.Waves = _arena.Waves;
+        SaveSerial.Instance.Data = _arena.Waves[0];
     }
 
-    public Vector2 GetLastUnlockPosition()
-    {
-        var lastUnlock = _levels.Where(level => level.IsComplete(level.Number) == false && level.IsUnlock).FirstOrDefault();
-
-        if (lastUnlock == null)
-            return new Vector2(_arena.RectTransform.anchoredPosition.x, _arena.RectTransform.anchoredPosition.y + 160f);
-
-        Vector2 target = new Vector2(lastUnlock.AnchoredPosition.x, lastUnlock.AnchoredPosition.y + lastUnlock.Offset);
-        return target;
-    }
-   
     public void RequirementMissionPopupEnable()
     {
-        _missionPanel.SetActive(true);
+        _missionPanel.Open();
         _blackout.SetActive(true);
     }
 
     public void RequirementMissionPopupDisable()
     {
-        _missionPanel.SetActive(false);
+        _missionPanel.Close();
         _blackout.SetActive(false);
     }
-
-    public List<Level> GetLevelList() => _levels;
 }

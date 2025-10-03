@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NavMeshPlus.Components;
+using UnityEngine.Events;
 
 public class SnakeMovement : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class SnakeMovement : MonoBehaviour
     [field:SerializeField] public float Speed { get; set; }
     public Head Head { get; private set; }
     public Tail Tail { get; private set; }
+
+    public UnityEvent StepPassed;
 
     private List<Body> _bodys = new List<Body>();
     private List<SpriteRenderer> _sprites = new List<SpriteRenderer>();
@@ -74,9 +77,10 @@ public class SnakeMovement : MonoBehaviour
 
     private void Update()
     {
+        SwipeDetection(_snakeInputController.Direction.x, _snakeInputController.Direction.y);
+
         if (_timer * Speed > 1)
         {
-            SwipeDetection(_snakeInputController.GetDeltaX(), _snakeInputController.GetDeltaY());
             MoveBody(_moveRules[_swipeDirection]);
 
             foreach (var surface in _surfaces)
@@ -86,6 +90,8 @@ public class SnakeMovement : MonoBehaviour
 
             _timer = 0;
             DistanceTraveled++;
+            SaveSerial.Instance.Increment(1, SaveSerial.JsonPaths.PassDistance);
+            StepPassed?.Invoke();
         }
         _timer += Time.deltaTime;
     }
@@ -119,7 +125,6 @@ public class SnakeMovement : MonoBehaviour
 
     public void MoveBody(MoveRule rule)
     {
-        Body newBody;
         _filter.SetLayerMask(~LayerMask.GetMask(LayerMask.LayerToName(8), LayerMask.LayerToName(7)));
         int collision = _collision.Cast(rule.Step, _filter, _hits, MoveStep);
 
@@ -129,17 +134,17 @@ public class SnakeMovement : MonoBehaviour
             foreach (var rotation in _headDirections)
             {
                 if (rotation.Key == _headRot)
-                    _snakeInputController.ChangeDirection(rotation.Value);
+                    _snakeInputController.Direction = rotation.Value;
             }
             return;
         }
 
+        Body newBody;
         if (_swipeDirection != _currentDirection)
         {
-            if (_currentDirection == rule.Direction)
-                newBody = _pool.Take(_prefabRightCorner, Head.transform.position, Quaternion.Euler(0, 0, rule.AngleRightBody), transform, _headImage.color);
-            else
-                newBody = _pool.Take(_prefabLeftCorner, Head.transform.position, Quaternion.Euler(0, 0, rule.AngleLeftBody), transform, _headImage.color);
+            newBody = _currentDirection == rule.Direction
+                ? _pool.Take(_prefabRightCorner, Head.transform.position, Quaternion.Euler(0, 0, rule.AngleRightBody), transform, _headImage.color)
+                : _pool.Take(_prefabLeftCorner, Head.transform.position, Quaternion.Euler(0, 0, rule.AngleLeftBody), transform, _headImage.color);
         }
         else
         {
@@ -199,7 +204,7 @@ public class SnakeMovement : MonoBehaviour
         }
     }
 
-    public void ChangeSpeedMovement(float increase) => Speed += increase;
+    public void ChangeSpeed(float increase) => Speed += increase;
 }
 
 public class MoveRule

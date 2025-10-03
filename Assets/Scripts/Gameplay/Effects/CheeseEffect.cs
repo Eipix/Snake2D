@@ -28,7 +28,7 @@ public class CheeseEffect : MonoBehaviour
         if (_rotApple != null)
         {
             enemy.Poisoning();
-            _rotApple.gameObject.SetActive(false);
+            _rotApple.Deactivate();
         }
         Destroy(gameObject);
     }
@@ -36,6 +36,6 @@ public class CheeseEffect : MonoBehaviour
     public void TurnOn()
     {
         _renderer.sortingOrder = -5;
-        _collider.enabled = true; 
+        _collider.enabled = true;
     }
 }

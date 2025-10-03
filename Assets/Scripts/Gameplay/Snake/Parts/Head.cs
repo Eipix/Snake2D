@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Head : Snake
 {
     [SerializeField] private AdditionApples _additionApples;
     [SerializeField] private Effects _effects;
-    public bool IsAppleEaten { get; private set; }
+
+    public UnityEvent Eated;
 
     private Coroutine _poisoning;
+
+    public bool IsAppleEaten { get; private set; }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,7 +23,7 @@ public class Head : Snake
             else if (collision.gameObject.TryGetComponent(out RedApple redApple))
             {
                 IsAppleEaten = true;
-                _additionApples.AddApple();
+                _additionApples.AddRedApple();
                 _additionApples.MoveToBar(redApple);
             }
             else if (collision.gameObject.TryGetComponent(out GoldApple goldApple))
@@ -29,12 +33,14 @@ public class Head : Snake
                 _additionApples.MoveToBar(goldApple);
             }
             apple.Deactivate();
+            Eated?.Invoke();
         }
 
         if (collision.collider.TryGetComponent(out Cherry cherry))
         {
             _effects.Healing();
             cherry.gameObject.SetActive(false);
+            Eated?.Invoke();
         }
     }
 

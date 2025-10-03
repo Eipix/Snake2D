@@ -29,9 +29,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -88,14 +88,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d637b17ea3a18a40bf1c3e483e3c7d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 0}
-  <Color>k__BackingField: {r: 1, g: 0.74650204, b: 0, a: 0}
-  saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
-  <IconArt>k__BackingField: {fileID: 21300000, guid: add2095bdbf5407468d543fc046884ae, type: 3}
+  <LangName>k__BackingField:
+    <TranslateTexts>k__BackingField:
+    - Gold peach
+    - "\u0417\u043E\u043B\u043E\u0442\u043E\u0439 \u043F\u0435\u0440\u0441\u0438\u043A"
+    - "Alt\u0131n \u015Feftali"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 9e5f4ef380678e149aae427fdcbbb5ad, type: 3}
+  <Shadowed>k__BackingField: {fileID: 0}
+  <Color>k__BackingField: {r: 1, g: 0.74650204, b: 0, a: 1}
+  _smallIcon: {fileID: 21300000, guid: 6064c88abf2da474299758fad06b2800, type: 3}
+  <FullScreenIcon>k__BackingField: {fileID: 21300000, guid: add2095bdbf5407468d543fc046884ae, type: 3}
   <Light>k__BackingField: {fileID: 21300000, guid: 83270756c45e99d40b359df64f3e972c, type: 3}
-  <Headline>k__BackingField: {fileID: 21300000, guid: aaf1106417debd342b8050330a39144b, type: 3}
-  <Description>k__BackingField: "\u0414\u0430\u0451\u0442 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
-    \u043D\u0430 7 \u0441\u0435\u043A\u0443\u043D\u0434. \u041C\u043E\u0436\u043D\u043E
-    \u0432\u0437\u044F\u0442\u044C 1 \u0448\u0442."
-  <MaxToAdd>k__BackingField: 1
-  <CoolDown>k__BackingField: 0
+  <LangDescription>k__BackingField:
+    <TranslateTexts>k__BackingField:
+    - Gives invincibility for 7 seconds. You can take 2 piece.
+    - "\u0414\u0430\u0451\u0442 \u043D\u0435\u0443\u044F\u0437\u0432\u0438\u043C\u043E\u0441\u0442\u044C
+      \u043D\u0430 7 \u0441\u0435\u043A\u0443\u043D\u0434. \u041C\u043E\u0436\u043D\u043E
+      \u0432\u0437\u044F\u0442\u044C 2 \u0448\u0442."
+    - "Yedi saniye boyunca zarar g\xF6rmezlik sa\u011Flar. 2 par\xE7a alabilirsin."
+  <LangHeadline>k__BackingField:
+    <Text>k__BackingField:
+      <TranslateTexts>k__BackingField:
+      - Gold peach
+      - "\u0417\u043E\u043B\u043E\u0442\u043E\u0439 \u043F\u0435\u0440\u0441\u0438\u043A"
+      - "Alt\u0131n \u015Feftali"
+    <Preset>k__BackingField: {fileID: 2100000, guid: f4aea1253e8e76543874031b3bb9eaae, type: 2}
+    <Color>k__BackingField: {r: 0.99215686, g: 1, b: 0.5372549, a: 1}
+  <MaxToAdd>k__BackingField: 2
+  <CoolDown>k__BackingField: 30
+  Used:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6045859677810756825, guid: 1a66bdc5aa54fa744919283449dc3889, type: 3}
+        m_TargetAssemblyTypeName: Achievement, Assembly-CSharp
+        m_MethodName: CheckCompletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  <Rarity>k__BackingField: 0
+  <Icon>k__BackingField: {fileID: 21300000, guid: b7126a1b68f6ade4ab2b947842aac502, type: 3}

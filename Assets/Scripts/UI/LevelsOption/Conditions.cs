@@ -4,14 +4,14 @@ using System;
 public class Condition
 {
     public LevelConditions Name;
-    public string Description;
+    public TranslatableString Text;
     public int Value;
     public bool IsLessThan;
 
     public bool IsComplete(int currentValue)
     {
         if (IsLessThan) return currentValue <= Value;
-         else return currentValue >= Value;
+        else return currentValue >= Value;
     }
 }
 
@@ -27,6 +27,12 @@ public enum LevelConditions
     KillAnts,
     FreezeHedgehogs,
     HoldOutSeconds,
-    PassLevelByEpicSkin
+    PassLevelByEpicSkin,
+
+    PoisonMouses,
+    KillMouses,
+    PassByRareSkin,
+    PassByLegendarySkin,
+    PoisonHedgehogs
 }
 

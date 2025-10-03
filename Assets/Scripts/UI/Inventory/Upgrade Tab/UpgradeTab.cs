@@ -3,7 +3,6 @@ using UnityEngine;
 public class UpgradeTab : MonoBehaviour
 {
     [SerializeField] private SpawnSkins _skinTab;
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private Upgrade _skinSkill;
 
     private void OnEnable()
@@ -14,9 +13,10 @@ public class UpgradeTab : MonoBehaviour
 
     private void SetSnakeArt()
     {
-        foreach (var skin in _skinTab.PrefabSkins)
+        var prefabs = SaveSerial.Instance.SkinPrefabs;
+        foreach (var skin in prefabs)
         {
-            if(skin.GetType().ToString() == _saveSerial.LoadCurrentSkinType())
+            if(skin.GetType().ToString() == SaveSerial.Instance.LoadCurrentSkinType())
             {
                 _skinTab.InventoryArt.ChangeArt(skin);
             }

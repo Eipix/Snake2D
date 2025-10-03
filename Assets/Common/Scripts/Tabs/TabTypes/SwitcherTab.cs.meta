@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4d7b5e9e0821f79479f90a6e8a7497d0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _stateOn: {fileID: -383130199, guid: 3591e137273541d4cb146818088723d3, type: 3}
+  - _stateOff: {fileID: 565484663, guid: 3591e137273541d4cb146818088723d3, type: 3}
+  - _content: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

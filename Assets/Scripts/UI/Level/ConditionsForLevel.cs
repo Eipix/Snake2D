@@ -1,16 +1,15 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ConditionsForLevel : MonoBehaviour
 {
+    [SerializeField] private CountdownToStart _countdown;
     [SerializeField] private OnPauseOrWinOrDefeatPanelShow _panel;
     [SerializeField] private AdditionApples _additionApples;
     [SerializeField] private Health _health;
     [SerializeField] private SnakeCollision _leadingTrigger;
     [SerializeField] private SnakeMovement _snake;
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private Effects _effects;
     [SerializeField] private SkinLoader _skinLoader;
 
@@ -19,12 +18,19 @@ public class ConditionsForLevel : MonoBehaviour
 
     private Dictionary<LevelConditions, int> _conditionValues;
 
+    private Condition[] _conditions;
+
     public int  DistractHedgehogs { get;  set; }
     public int KillAnts { get;  set; }
     public int FreezeHedgehogs { get;  set; }
+    public int KillMouses { get; set; }
+    public int PoisonMouses { get; set; }
+    public int PoisonHedgehogs { get; set; }
 
     private bool[] _stars = new bool[3];
-    private float _timer;
+    public float Timer { get; private set; }
+
+    private void Awake() => _conditions = SaveSerial.Instance.Data.Conditions;
 
     private void Start()
     {
@@ -39,14 +45,20 @@ public class ConditionsForLevel : MonoBehaviour
             { LevelConditions.DistractHedgehogs, DistractHedgehogs},
             { LevelConditions.KillAnts, KillAnts},
             { LevelConditions.FreezeHedgehogs, FreezeHedgehogs},
-            { LevelConditions.HoldOutSeconds, (int)_timer},
-            { LevelConditions.PassLevelByEpicSkin,  Convert.ToInt32(_skinLoader.IsSkinEpic)}
+            { LevelConditions.HoldOutSeconds, (int)Timer},
+            { LevelConditions.PassLevelByEpicSkin, _skinLoader.CurrentSkin.Rarity == Rarity.Epic ? 1 : 0},
+
+            { LevelConditions.PassByRareSkin, _skinLoader.CurrentSkin.Rarity == Rarity.Common ? 1 : 0},
+            { LevelConditions.PassByLegendarySkin, _skinLoader.CurrentSkin.Rarity == Rarity.Legendary ? 1 : 0},
+            { LevelConditions.KillMouses, KillMouses},
+            { LevelConditions.PoisonMouses, PoisonMouses},
+            { LevelConditions.PoisonHedgehogs, PoisonHedgehogs}
         };
     }
 
     private void Update()
     {
-        if (Main().Name != LevelConditions.HoldOutSeconds)
+        if (Head().Name != LevelConditions.HoldOutSeconds)
             return;
 
         if (IsMainReached())
@@ -54,30 +66,52 @@ public class ConditionsForLevel : MonoBehaviour
             _panel.WinShow();
         }
 
-        _timer += Time.deltaTime;
+        if (_countdown.LevelStarted)
+            Timer += Time.deltaTime;
     }
 
-    public void StarsCheck()
+    public void CalculateStars()
     {
+        if (SaveSerial.Instance.Mode == LevelMode.Arena)
+            return;
+
+        if (SaveSerial.Instance.Mode == LevelMode.Custom)
+            return;
+
         UpdateValues();
 
-        for (int i = 0; i < _saveSerial.Data.Conditions.Length; i++)
+        for (int i = 0; i < _conditions.Length; i++)
         {
-            _stars[i] = _saveSerial.Data.Conditions[i].IsComplete(_conditionValues[_saveSerial.Data.Conditions[i].Name]);
-            _currentStars[i].sprite = _stars[i] 
+            if (IsMainReached() == false)
+                break;
+
+            var condition = _conditions[i];
+            var name = _conditions[i].Name;
+
+            _stars[i] = condition.IsComplete(_conditionValues[name]);
+            _currentStars[i].sprite = _stars[i]
                 ? _filledStar 
                 : _currentStars[i].sprite;
         }
 
-        _saveSerial.SaveStars(_stars);
+
+        int index = SaveSerial.Instance.Data.LevelIndex;
+        string file = SaveSerial.JsonPaths.LevelStars;
+        var oldStars = SaveSerial.Instance.Load(index, file, new bool[3]);
+        for (int i = 0; i < oldStars.Length; i++)
+        {
+            if (_stars[i] == true)
+                oldStars[i] = true;
+        }
+        SaveSerial.Instance.Save((index, oldStars), file);
     }
 
-    public Condition Main() => _saveSerial.Data.Conditions[0];
+    public Condition Head() => _conditions[0];
 
     public bool IsMainReached()
     {
         UpdateValues();
-        return Main().IsComplete(_conditionValues[Main().Name]);
+        return Head().IsComplete(_conditionValues[Head().Name]);
     }
 
     private void UpdateValues()
@@ -91,7 +125,13 @@ public class ConditionsForLevel : MonoBehaviour
         _conditionValues[LevelConditions.DistractHedgehogs] = DistractHedgehogs;
         _conditionValues[LevelConditions.KillAnts] = KillAnts;
         _conditionValues[LevelConditions.FreezeHedgehogs] = FreezeHedgehogs;
-        _conditionValues[LevelConditions.HoldOutSeconds] = (int)_timer;
-        _conditionValues[LevelConditions.PassLevelByEpicSkin] = Convert.ToInt32(_skinLoader.IsSkinEpic);
+        _conditionValues[LevelConditions.HoldOutSeconds] = (int)Timer;
+
+        _conditionValues[LevelConditions.PassLevelByEpicSkin] = _skinLoader.CurrentSkin.Rarity == Rarity.Epic ? 1 : 0;
+        _conditionValues[LevelConditions.PassByRareSkin] = _skinLoader.CurrentSkin.Rarity == Rarity.Common ? 1 : 0;
+        _conditionValues[LevelConditions.PassByLegendarySkin] = _skinLoader.CurrentSkin.Rarity == Rarity.Legendary ? 1 : 0;
+        _conditionValues[LevelConditions.KillMouses] = KillMouses;
+        _conditionValues[LevelConditions.PoisonMouses] = PoisonMouses;
+        _conditionValues[LevelConditions.PoisonHedgehogs] = PoisonHedgehogs;
     }
 }

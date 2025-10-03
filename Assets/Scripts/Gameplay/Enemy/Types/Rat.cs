@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class Rat : Enemy
 {
@@ -10,14 +10,21 @@ public class Rat : Enemy
     private Tween _dashMove;
 
     private bool _isDash;
-    private float _delay = 0f;
     private float _contusionTimer = 0f;
     private float _afterDashTimer = 2f;
-    private int _afterdashDelay = 2;
     private int _contusionDuration = 5;
+    private bool _isInit;
 
+    private readonly int _afterdashDelay = 2;
     private readonly int _summonCount = 2;
     private readonly int _dashDamage = 2;
+
+    public void InitMouses()
+    {
+        if (_isInit) return;
+        References.Pool.AddEnemies(_mousePrefab, _summonCount);
+        _isInit = true;
+    }
 
     protected override void Start()
     {
@@ -42,9 +49,8 @@ public class Rat : Enemy
         }
 
         _afterDashTimer += Time.deltaTime;
-        _delay += Time.deltaTime;
 
-        if (_delay < 3f)
+        if (References.CountdownToStart.LevelStarted == false)
             return;
 
         base.Update();
@@ -110,16 +116,17 @@ public class Rat : Enemy
     {
         Sequence sequence = DOTween.Sequence();
         sequence.SetUpdate(false);
-        sequence.AppendInterval(TimeSpan.FromSeconds(10).Seconds);
+        sequence.AppendInterval(10);
         sequence.AppendCallback(() =>
         {
-            if (Spawner.CanSpawn() == false)
+            if (References.Spawner.CanSpawn() == false)
                 return;
 
+            InitMouses();
             Animator.SetTrigger(AnimationController.Summon);
             for (int i = 0; i < _summonCount; i++)
             {
-                Spawner.SpawnEnemy(_mousePrefab);
+                References.Spawner.SpawnEnemy(_mousePrefab);
             }
         });
         sequence.SetLoops(-1);
@@ -127,9 +134,17 @@ public class Rat : Enemy
 
     public void Dash()
     {
-        LookAtTarget();
+        LookAt();
         _dashMove = transform.DOMove(GetSnakePosition(), 0.22f);
         _isDash = true;
+    }
+
+    //invoke in animation "Dash"
+    private void LookAt()
+    {
+        var direction = (References.SnakeHead.transform.position - transform.position).normalized;
+        float angle = MathF.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90);
     }
 
     public void DisableDash()

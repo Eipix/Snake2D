@@ -29,9 +29,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -88,15 +88,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb665fa120b0bb438e63b4928d24bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveSerial: {fileID: -416410815459731263, guid: 02acd5c2a50c66b4996f43e59c620d69, type: 3}
-  <IconArt>k__BackingField: {fileID: 21300000, guid: 227d4d20e3838a24dab8d743f0ead47a, type: 3}
+  <LangName>k__BackingField:
+    <TranslateTexts>k__BackingField: []
+  <Sprite>k__BackingField: {fileID: 0}
+  <Shadowed>k__BackingField: {fileID: 0}
+  <Color>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  _smallIcon: {fileID: 21300000, guid: 619b15afe4b5971468317a802ea9fad1, type: 3}
+  <FullScreenIcon>k__BackingField: {fileID: 21300000, guid: 227d4d20e3838a24dab8d743f0ead47a, type: 3}
   <Light>k__BackingField: {fileID: 21300000, guid: a55a02aae02f07749a43bd89befe09c3, type: 3}
-  <Headline>k__BackingField: {fileID: 21300000, guid: c7203909a7e891841bcd7847dfc39416, type: 3}
-  <Description>k__BackingField: "\u041F\u0440\u0438 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0438
-    \u0432 \u041F\u0430\u0433\u043A\u043E \u0448\u0430\u0445\u0434\u0430\u0440\u0430\u0445\u0430\u0435\u0442
-    \u043C\u043E\u043B\u043D\u0438\u044F \u0438 \u043E\u043D \u0443\u0441\u043A\u043E\u0440\u044F\u0435\u0442\u0441\u044F
-    \u043D\u0430 240%. \u041C\u043E\u0436\u043D\u043E \u0432\u0437\u044F\u0442\u044C
-    2 \u0448\u0442., \u043D\u0435 \u0447\u0430\u0449\u0435 1 \u0440\u0430\u0437\u0430
-    \u0432 60 \u0441\u0435\u043A\u0443\u043D\u0434"
+  <LangDescription>k__BackingField:
+    <TranslateTexts>k__BackingField:
+    - When used, Pagko is struck by lightning and accelerated by 100%. You can take
+      2 pieces, no more than once every 60 seconds.
+    - "\u041F\u0440\u0438 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0438
+      \u0432 \u041F\u0430\u0433\u043A\u043E \u0448\u0430\u0445\u0434\u0430\u0440\u0430\u0445\u0430\u0435\u0442
+      \u043C\u043E\u043B\u043D\u0438\u044F \u0438 \u043E\u043D \u0443\u0441\u043A\u043E\u0440\u044F\u0435\u0442\u0441\u044F
+      \u043D\u0430 100%. \u041C\u043E\u0436\u043D\u043E \u0432\u0437\u044F\u0442\u044C
+      2 \u0448\u0442., \u043D\u0435 \u0447\u0430\u0449\u0435 1 \u0440\u0430\u0437\u0430
+      \u0432 60 \u0441\u0435\u043A\u0443\u043D\u0434"
+    - "Kullan\u0131ld\u0131\u011F\u0131nda Pagko'ya y\u0131ld\u0131r\u0131m \xE7arpar
+      ve %100 h\u0131zlan\u0131r. Her 60 saniyede bir defadan fazla olmamak \xFCzere
+      2 adet alabilirsiniz."
+  <LangHeadline>k__BackingField:
+    <Text>k__BackingField:
+      <TranslateTexts>k__BackingField:
+      - Lightning
+      - "\u041C\u043E\u043B\u043D\u0438\u044F"
+      - "Y\u0131ld\u0131r\u0131m"
+    <Preset>k__BackingField: {fileID: 2100000, guid: 337b55c432f4d68488a22b8b0d573347, type: 2}
+    <Color>k__BackingField: {r: 0.9882353, g: 0.9882353, b: 0.20784314, a: 1}
   <MaxToAdd>k__BackingField: 2
   <CoolDown>k__BackingField: 60
+  Used:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6045859677810756825, guid: 1a66bdc5aa54fa744919283449dc3889, type: 3}
+        m_TargetAssemblyTypeName: Achievement, Assembly-CSharp
+        m_MethodName: CheckCompletion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

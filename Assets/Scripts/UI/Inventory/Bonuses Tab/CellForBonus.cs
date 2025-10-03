@@ -5,7 +5,6 @@ using TMPro;
 
 public class CellForBonus : MonoBehaviour
 {
-    [SerializeField] private SaveSerial _saveSerial;
     private SelectedCell _selectCell;
     private TMP_Text _amount;
     private BonusesTab _bonusesTab;
@@ -36,7 +35,7 @@ public class CellForBonus : MonoBehaviour
 
     private void Start()
     {
-        _amount.text = GetComponentInChildren<Bonus>()?.GetAmount().ToString();
+        _amount.text = GetComponentInChildren<Bonus>()?.Amount.ToString();
     }
 
     private void Update()

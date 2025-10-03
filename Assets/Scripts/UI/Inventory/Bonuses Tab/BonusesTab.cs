@@ -5,19 +5,17 @@ using UnityEngine.UI;
 public class BonusesTab : MonoBehaviour
 {
     [SerializeField] private InventoryArt _inventoryArt;
-    [SerializeField] private SaveSerial _saveSerial;
     [SerializeField] private GameObject _prefabCell;
-    [SerializeField] private Bonus[] _prefabBonuses;
 
     private List<GameObject> _cells = new List<GameObject>();
     private Slots _slots;
     private GameObject _content;
+
     private bool _isInit = false;
 
     private void OnEnable()
     {
-        if (!_isInit)
-            Init();
+        if (!_isInit) Init();
         UpdateCells();
     }
 
@@ -50,8 +48,7 @@ public class BonusesTab : MonoBehaviour
     public void UpdateCells()
     {
         ClearCells();
-        Queue<Bonus> bonuses = new Queue<Bonus>(_prefabBonuses);
-
+        Queue<Bonus> bonuses = new Queue<Bonus>(SaveSerial.Instance.BonusPrefabs);
         for (int i = 0; i < 8; i++)
         {
             var cell = Instantiate(_prefabCell, _content.transform);
@@ -66,7 +63,7 @@ public class BonusesTab : MonoBehaviour
     {
         while (bonuses.Count > 0)
         {
-            if (bonuses.Peek().GetAmount() > 0)
+            if (bonuses.Peek().Amount > 0)
             {
                 Instantiate(bonuses.Peek(), cell.transform);
                 bonuses.Dequeue();
@@ -90,20 +87,21 @@ public class BonusesTab : MonoBehaviour
     
     private int AmountInCells()
     {
+        var bonusPrefabs = SaveSerial.Instance.BonusPrefabs;
         int allBonusAmount = 0;
         Bonus first = null;
 
-        foreach (var bonus in _prefabBonuses)
+        foreach (var bonus in bonusPrefabs)
         {
-            if (bonus.GetAmount() > 0)
+            if (bonus.Amount > 0)
             {
                 first = bonus;
                 break;
             }
         }
 
-        foreach (var bonus in _prefabBonuses)
-            allBonusAmount += bonus.GetAmount();
+        foreach (var bonus in bonusPrefabs)
+            allBonusAmount += bonus.Amount;
 
         if (allBonusAmount == 0)
             _inventoryArt.ArtEmpty();
@@ -117,15 +115,15 @@ public class BonusesTab : MonoBehaviour
     
     public void MoveFromCellToSlot(Bonus bonus)
     {
-        int value;
-        bool Contains = _saveSerial.LoadBonusInSlots().TryGetValue(bonus.GetType().ToString(), out value);
+        var bonusInSlots = SaveSerial.Instance.LoadBonusInSlots();
+        bool Contains = bonusInSlots.TryGetValue(bonus.GetType().ToString(), out int value);
         bool LessThanMaxToAdd = value < bonus.MaxToAdd;
-        bool NotContains = _saveSerial.LoadBonusInSlots().Count < 3;
+        bool NotContains = bonusInSlots.Count < 3;
 
         if ((NotContains && LessThanMaxToAdd) || (Contains && LessThanMaxToAdd))
         {            
             bonus.Decrese();
-            _saveSerial.SaveBonusInSlots(bonus);
+            SaveSerial.Instance.SaveBonusInSlots(bonus);
             _slots.UpdateSlots();
             UpdateCells();
         }
@@ -134,7 +132,7 @@ public class BonusesTab : MonoBehaviour
     public void MoveFromSlotToCell(Bonus bonus)
     {
         bonus.Add();
-        _saveSerial.SaveBonusInSlots(bonus, -1);
+        SaveSerial.Instance.SaveBonusInSlots(bonus, -1);
         _slots.UpdateSlots();
         UpdateCells();
     }
@@ -149,10 +147,10 @@ public class BonusesTab : MonoBehaviour
             {
                 Bonus bonus = slot.GetComponentInChildren<Bonus>();
                 int amountInSlot;
-                if (_saveSerial.LoadBonusInSlots().TryGetValue(bonus.GetType().ToString(), out amountInSlot))
+                if (SaveSerial.Instance.LoadBonusInSlots().TryGetValue(bonus.GetType().ToString(), out amountInSlot))
                 {
                     bonus.Add(amountInSlot);
-                    _saveSerial.SaveBonusInSlots(bonus, - amountInSlot);
+                    SaveSerial.Instance.SaveBonusInSlots(bonus, - amountInSlot);
                 }
             }
         }

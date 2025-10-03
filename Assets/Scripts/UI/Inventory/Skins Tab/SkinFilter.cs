@@ -22,27 +22,16 @@ public class SkinFilter : MonoBehaviour
 
     private void Start()
     {
-        _filters.Add(0, () => skinsTab.SpawnFilter(skinsTab.PrefabSkins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Common), true));
-        _filters.Add(1, () => skinsTab.SpawnFilter(skinsTab.PrefabSkins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Epic), true));
-        _filters.Add(2, () => skinsTab.SpawnFilter(skinsTab.PrefabSkins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Legendary), true));
-        _filters.Add(3, () => skinsTab.SpawnFilter(skinsTab.PrefabSkins.Where(skin => skin.UnlockState).OrderBy(skin => skin.Rareness), true));
+        var skins = SaveSerial.Instance.SkinPrefabs;
+        _filters.Add(0, () => skinsTab.SpawnFilter(skins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Common), true));
+        _filters.Add(1, () => skinsTab.SpawnFilter(skins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Epic), true));
+        _filters.Add(2, () => skinsTab.SpawnFilter(skins.Where(skin => skin.UnlockState && skin.Rareness == Rarity.Legendary), true));
+        _filters.Add(3, () => skinsTab.SpawnFilter(skins.Where(skin => skin.UnlockState).OrderBy(skin => skin.Rareness), true));
     }
 
     public void OnFilterClick()
     {
         ChangeContentState();
-    }
-
-    private void ChangeContentState(float speed = 0.2f)
-    {
-        float fillAmount = IsContentEnable() ? 0f : 1f;
-        int arrowAngle = IsContentEnable() ? 0 : -90;
-
-        Vector3 newRotation = new Vector3(_arrow.rotation.x, _arrow.rotation.y, _arrow.rotation.z + arrowAngle);
-        
-        DOTween.Sequence()
-               .Append(_arrow.DORotate(newRotation, speed))
-               .Append(_content.DOFillAmount(fillAmount, speed));
     }
 
     public void OnOptionClick(int option)
@@ -56,7 +45,20 @@ public class SkinFilter : MonoBehaviour
         ChangeContentState();
     }
 
-    private bool IsContentEnable() => _content.fillAmount == 1 ? true : false;
+    private void ChangeContentState(float speed = 0.2f)
+    {
+        float fillAmount = IsContentEnable() ? 0f : 1f;
+        int arrowAngle = IsContentEnable() ? 0 : -90;
+        _content.gameObject.SetActive(!IsContentEnable());
+
+        Vector3 newRotation = new Vector3(_arrow.rotation.x, _arrow.rotation.y, _arrow.rotation.z + arrowAngle);
+        
+        DOTween.Sequence()
+               .Append(_arrow.DORotate(newRotation, speed))
+               .Append(_content.DOFillAmount(fillAmount, speed));
+    }
+
+    private bool IsContentEnable() => _content.fillAmount == 1;
 
     private void DisableOutlines()
     {
